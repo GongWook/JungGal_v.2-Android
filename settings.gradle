@@ -1,0 +1,2 @@
+rootProject.name = "JungGal_v.2"
+include ':app'
