@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/hello_junggal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/namugodicl"
+        android:textColor="@color/black"
+        android:text="안녕하세요 :)\n정갈에 오신걸 환영해요"
+        android:textSize="25dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginLeft="55dp"/>
+
+    <TextView
+        android:id="@+id/introduce_ai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/namugodicl"
+        android:text="저는 달걀이라고 합니다."
+        android:textSize="25dp"
+        android:letterSpacing="0.05"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/black"
+        android:layout_marginLeft="55dp"/>
+
+    <ImageView
+        android:id="@+id/ai_egg"
+        android:layout_marginTop="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ai_egg" />
+
+    <Button
+        android:id="@+id/next_button"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="200dp"
+        android:layout_marginRight="25dp"
+        android:text="Button"
+        android:backgroundTint="#FFC000" />
+</LinearLayout>

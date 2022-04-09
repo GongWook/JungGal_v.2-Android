@@ -1,6 +1,14 @@
 package com.gnu_graduate_project_team.junggal_v2;
 
+import android.util.Log;
+
 import org.junit.Test;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static org.junit.Assert.*;
 
@@ -14,4 +22,5 @@ public class ExampleUnitTest {
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
     }
+
 }
