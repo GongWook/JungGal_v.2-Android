@@ -36,7 +36,7 @@
         android:src="@drawable/ai_egg" />
 
     <Button
-        android:id="@+id/next_button"
+        android:id="@+id/hell_next_button"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_gravity="right"

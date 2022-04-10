@@ -31,12 +31,13 @@ public class HelloActivity extends Activity {
         tx1 = (TextView) findViewById(R.id.hello_junggal);
         tx2 = (TextView) findViewById(R.id.introduce_ai);
         egg = (ImageView) findViewById(R.id.ai_egg);
-        button = (Button) findViewById(R.id.next_btn);
+        button = (Button) findViewById(R.id.hell_next_button);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(HelloActivity.this,)
+                Intent intent = new Intent(HelloActivity.this, HelloChooseActivity.class);
+                startActivity(intent);
             }
         });
 

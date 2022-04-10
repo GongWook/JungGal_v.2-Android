@@ -67,19 +67,19 @@ public class RegistAgreeActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                //Intent intent = new Intent(RegistAgreeActivity.this,)
+                Intent intent = new Intent(RegistAgreeActivity.this, RegistPhoneAuthActivity.class);
                 
                 if (all_checked == false)
                 {
-                    Toast.makeText(getApplicationContext(),"약관에 동의가 되지 않았습니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"약관에 동의가 되지 않았습니다.", Toast.LENGTH_SHORT).show();
                 }
                 else if(age_checked == false)
                 {
-                    Toast.makeText(getApplicationContext(),"14세 미만은 사용할 수 없습니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"14세 미만은 사용할 수 없습니다.", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(),"test완료", Toast.LENGTH_LONG).show();
+                    startActivity(intent);
                 }
             }
         });

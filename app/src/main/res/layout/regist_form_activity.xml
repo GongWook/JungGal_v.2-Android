@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="반가워요 !"
+        android:fontFamily="@font/namugodicl"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:letterSpacing="0.03"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="40dp"/>
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:text="정갈에서 사용하실 정보를\n입력해 주세요."
+        android:layout_marginLeft="40dp"/>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:src="@drawable/userid_icon" />
+
+        <EditText
+            android:id="@+id/regist_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:fontFamily="@font/namugodicl"
+            android:hint="이메일"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="45dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:src="@drawable/passlock_icon" />
+
+        <EditText
+            android:id="@+id/regist_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:fontFamily="@font/namugodicl"
+            android:hint="비밀번호"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="45dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:src="@drawable/passcheck_icon" />
+
+        <EditText
+            android:id="@+id/regist_checkpw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:fontFamily="@font/namugodicl"
+            android:hint="비밀번호 확인"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="35dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/regist_profile"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:padding="5dp"
+                android:src="@drawable/man" />
+
+            <Button
+                android:id="@+id/regist_profile_button"
+                android:layout_width="75dp"
+                android:layout_height="40dp"
+                android:fontFamily="@font/namugodicl"
+                android:text="프로필"
+                android:layout_gravity="center"
+                android:backgroundTint="#FCC000"/>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/regist_name"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:fontFamily="@font/namugodicl"
+            android:hint="Ex) 이름 ( 별명 )"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/regist_introduce"
+        android:layout_width="300dp"
+        android:layout_height="120dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Ex) 안녕하세요 !\n정갈 개발자 입니다."
+        android:background="@drawable/textbox_design"
+        android:paddingTop="20dp"
+        android:gravity="start"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="20dp"
+        android:fontFamily="@font/namugodicl"/>
+
+    <Button
+        android:id="@+id/regist_button"
+        android:layout_width="260dp"
+        android:layout_height="45dp"
+        android:backgroundTint="#FFC000"
+        android:layout_gravity="center"
+        android:text="회원가입"
+        android:fontFamily="@font/namugodicl"
+        android:layout_marginTop="20dp"/>
+</LinearLayout>

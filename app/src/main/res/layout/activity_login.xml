@@ -40,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
+                android:fontFamily="@font/namugodicl"
                 android:ems="12"
                 android:hint="아이디"
                 android:inputType="textEmailAddress" />
@@ -66,6 +67,7 @@
                 android:layout_marginLeft="15dp"
                 android:ems="12"
                 android:hint="비밀번호"
+                android:fontFamily="@font/namugodicl"
                 android:inputType="textPassword" />
 
         </LinearLayout>
@@ -82,6 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="70dp"
                 android:text="ID / PW 저장"
+                android:fontFamily="@font/namugodicl"
                 android:textColor="#000000"/>
 
             <TextView
@@ -89,6 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
+                android:fontFamily="@font/namugodicl"
                 android:text="회원가입"
                 android:clickable="true"
                 android:textColor="#000000"
