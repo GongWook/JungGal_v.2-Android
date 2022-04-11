@@ -54,6 +54,7 @@ public class RegistActivity_Test extends AppCompatActivity {
                 userVO.setPhone_number(userPhone);
                 userVO.setIntroduce(userIntroduce);
 
+                /**
                 Call<UserVO> call = apiInterface.registUser(userVO);
 
                 call.enqueue(new Callback<UserVO>() {
@@ -69,6 +70,7 @@ public class RegistActivity_Test extends AppCompatActivity {
                     }
                 });
 
+                */
 
             }
         });

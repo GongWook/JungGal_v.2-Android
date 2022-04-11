@@ -2,7 +2,12 @@ package com.gnu_graduate_project_team.junggal_v2;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -10,8 +15,26 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,6 +56,12 @@ public class RegistActivity extends Activity {
     private String check_pw;
     private String user_name;
     private String user_introduce;
+    private Bitmap user_profile;
+    private Uri user_profile_uri;
+    private RequestBody requestBody_user_profile = null;
+
+    private Map<String, RequestBody> user_info;
+
     //private ~~~~ user_profile
 
     @Override
@@ -53,17 +82,19 @@ public class RegistActivity extends Activity {
         regist_profile_button = (Button) findViewById(R.id.regist_profile_button);
         regist_button = (Button) findViewById(R.id.regist_button);
 
+        user_info = new HashMap<>();
+
         // 회원 프로필 등록
         regist_profile_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("imagle/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent, 0);;
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                //intent.setAction(Intent.ACTION_GET_CONTENT);
+
+                startActivityForResult(intent, 0);
             }
         });
-        
         
         // 회원 등록
         regist_button.setOnClickListener(new View.OnClickListener() {
@@ -103,15 +134,91 @@ public class RegistActivity extends Activity {
                 }
                 else
                 {
+                    RequestBody id = RequestBody.create(MediaType.parse("text/plain"),user_email );
+                    RequestBody pw = RequestBody.create(MediaType.parse("text/plain"),user_pw );
+                    RequestBody name = RequestBody.create(MediaType.parse("text/plain"),user_name );
+                    RequestBody phone_num = RequestBody.create(MediaType.parse("text/plain"),"01012345678" );
+                    RequestBody introduce = RequestBody.create(MediaType.parse("text/plain"),user_introduce );
 
                     user.setId(user_email);
                     user.setPw(user_pw);
                     user.setName(user_name);
-                    user.setIntroduce(user_email);
+                    user.setIntroduce(user_introduce);
                     //앞 인증 후 코드 수정하기
                     user.setPhone_number("000-0000-0000");
-                    //프로필 setting도 수정하기
 
+                    user_info.put("id", id);
+                    user_info.put("pw", pw);
+                    user_info.put("name", name);
+                    user_info.put("phone_number", phone_num);
+                    user_info.put("introduce", introduce);
+
+                    //profile
+                    if(requestBody_user_profile!=null)
+                    {
+                        MultipartBody.Part uploadFile = MultipartBody.Part.createFormData("profile","profile",requestBody_user_profile);
+                        RequestBody profile_flag = RequestBody.create(MediaType.parse("text/plain"),"true" );
+                        user_info.put("profile_flag", profile_flag);
+
+                        Call<UserVO> call = apiInterface.registUser(user_info, uploadFile);
+
+                        call.enqueue(new Callback<UserVO>() {
+                            @Override
+                            public void onResponse(Call<UserVO> call, Response<UserVO> response) {
+                                UserVO checkuser = response.body();
+                                Log.d("test성공",checkuser.getId());
+                                if(checkuser.getId().equals("null"))
+                                {
+                                    Toast.makeText(getApplicationContext(),"등록된 Email 입니다.", Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    Toast.makeText(getApplicationContext(),"가입 성공.", Toast.LENGTH_SHORT).show();
+                                    PreferenceManager.setBoolean(RegistActivity.this, "first_check_flag",true);
+                                    //Intent intent = new Intent(RegistActivity.this, MainActivity.class);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<UserVO> call, Throwable t) {
+                                Log.d("test실패",t.getMessage());
+                                Toast.makeText(getApplicationContext(),"가입 실패.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                    else
+                    {
+                        Call<UserVO> call = apiInterface.registUser_nonProfile(user_info);
+
+                        call.enqueue(new Callback<UserVO>() {
+                            @Override
+                            public void onResponse(Call<UserVO> call, Response<UserVO> response) {
+                                UserVO checkuser = response.body();
+                                Log.d("test성공",checkuser.getId());
+                                if(checkuser.getId().equals("null"))
+                                {
+                                    Toast.makeText(getApplicationContext(),"등록된 Email 입니다.", Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    Toast.makeText(getApplicationContext(),"가입 성공.", Toast.LENGTH_SHORT).show();
+                                    PreferenceManager.setBoolean(RegistActivity.this, "first_check_flag",true);
+                                    //Intent intent = new Intent(RegistActivity.this, MainActivity.class);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<UserVO> call, Throwable t) {
+                                Log.d("test실패",t.getMessage());
+                                Toast.makeText(getApplicationContext(),"가입 실패.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+
+
+
+                    /**
                     Call<UserVO> call = apiInterface.registUser(user);
 
                     call.enqueue(new Callback<UserVO>() {
@@ -138,6 +245,7 @@ public class RegistActivity extends Activity {
                         }
                     });
 
+                     */
 
                 }
 
@@ -149,6 +257,53 @@ public class RegistActivity extends Activity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 0)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                user_profile_uri = data.getData();
+                Glide.with(getApplicationContext()).load(data.getData()).override(500,500).into(regist_profile);
+                Log.d("이미지 경로 : ", data.getData().toString());
+
+                File file = new File(String.valueOf(user_profile_uri));
+                InputStream inputStream = null;
+
+                try
+                {
+                    inputStream = getApplicationContext().getContentResolver().openInputStream(user_profile_uri);
+                }
+                catch(IOException e)
+                {
+                    e.printStackTrace();
+                }
+
+                user_profile = BitmapFactory.decodeStream(inputStream);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                user_profile.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
+
+                requestBody_user_profile = RequestBody.create(MediaType.parse("image/jpg"), byteArrayOutputStream.toByteArray());
+
+                /**
+                Glide.with(getApplicationContext()).asBitmap().load(data.getData()).into(new CustomTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        user_profile = resource;
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                    }
+                });
+
+                 */
 
 
+            }
+        }
+    }
 }
