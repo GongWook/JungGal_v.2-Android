@@ -21,7 +21,10 @@ public class SplashActivity extends Activity {
         Boolean firstCheckFlag;
         firstCheckFlag = PreferenceManager.getBoolean(SplashActivity.this, "first_check_flag");
 
+        String Auto_Login = PreferenceManager.getString(SplashActivity.this,"user_id");
+
         Log.d("test check flag : ", firstCheckFlag.toString());
+        Log.d("test check flag : ", Auto_Login.toString());
 
 
 
@@ -31,8 +34,12 @@ public class SplashActivity extends Activity {
 
                 Intent intent;
 
-
-                if(firstCheckFlag == true)
+                if(Auto_Login!=null)
+                {
+                    intent = intent = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+                else if(firstCheckFlag == true)
                 {
                     intent = new Intent(SplashActivity.this, LoginActivity.class);
                     startActivity(intent);

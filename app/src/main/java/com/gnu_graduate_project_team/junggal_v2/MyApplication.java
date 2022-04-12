@@ -4,22 +4,11 @@ import android.app.Application;
 
 public class MyApplication extends Application {
 
-    private Boolean first_flag = false;
-    private UserVO userVO;
 
-    public Boolean getFirst_flag() {
-        return first_flag;
-    }
+    public static UserVO user_data;
 
-    public void setFirst_flag(Boolean first_flag) {
-        this.first_flag = first_flag;
-    }
-
-    public UserVO getUserVO() {
-        return userVO;
-    }
-
-    public void setUserVO(UserVO userVO) {
-        this.userVO = userVO;
+    @Override
+    public void onCreate() {
+        super.onCreate();
     }
 }

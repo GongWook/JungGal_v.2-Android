@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.gnu_graduate_project_team.junggal_v2">
 
     <!-- 인터넷 권한 설정 -->
@@ -21,7 +22,16 @@
         android:roundIcon="@mipmap/ic_launcher_junggal_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.JungGal_v2"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+
+        android:appComponentFactory="whateverString"
+        tools:replace="android:appComponentFactory">
+
+        <!-- 네이버 지도 -->
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="kzaooxgd1b" />
+
         <activity android:name=".SplashActivity"
             android:theme="@style/SplashTheme"
             android:exported="true">

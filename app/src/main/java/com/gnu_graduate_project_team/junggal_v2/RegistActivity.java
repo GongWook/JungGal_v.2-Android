@@ -61,8 +61,9 @@ public class RegistActivity extends Activity {
     private RequestBody requestBody_user_profile = null;
 
     private Map<String, RequestBody> user_info;
+    private UserVO userData;
 
-    //private ~~~~ user_profile
+       //private ~~~~ user_profile
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,7 +92,6 @@ public class RegistActivity extends Activity {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 //intent.setAction(Intent.ACTION_GET_CONTENT);
-
                 startActivityForResult(intent, 0);
             }
         });
@@ -140,18 +140,20 @@ public class RegistActivity extends Activity {
                     RequestBody phone_num = RequestBody.create(MediaType.parse("text/plain"),"01012345678" );
                     RequestBody introduce = RequestBody.create(MediaType.parse("text/plain"),user_introduce );
 
-                    user.setId(user_email);
-                    user.setPw(user_pw);
-                    user.setName(user_name);
-                    user.setIntroduce(user_introduce);
-                    //앞 인증 후 코드 수정하기
-                    user.setPhone_number("000-0000-0000");
-
                     user_info.put("id", id);
                     user_info.put("pw", pw);
                     user_info.put("name", name);
                     user_info.put("phone_number", phone_num);
                     user_info.put("introduce", introduce);
+
+                    userData = new UserVO();
+                    userData.setId(user_email);
+                    userData.setPw(user_pw);
+                    userData.setName(user_name);
+                    //userData.setPhone_number(user_phone_num);
+                    userData.setIntroduce(user_introduce);
+
+
 
                     //profile
                     if(requestBody_user_profile!=null)
@@ -173,9 +175,10 @@ public class RegistActivity extends Activity {
                                 }
                                 else
                                 {
-                                    Toast.makeText(getApplicationContext(),"가입 성공.", Toast.LENGTH_SHORT).show();
-                                    PreferenceManager.setBoolean(RegistActivity.this, "first_check_flag",true);
-                                    //Intent intent = new Intent(RegistActivity.this, MainActivity.class);
+                                    userData.setProfile_flag(true);
+                                    Regist_Success(userData);
+                                    Intent intent = new Intent(RegistActivity.this, MainActivity.class);
+                                    startActivity(intent);
                                 }
                             }
 
@@ -201,9 +204,10 @@ public class RegistActivity extends Activity {
                                 }
                                 else
                                 {
-                                    Toast.makeText(getApplicationContext(),"가입 성공.", Toast.LENGTH_SHORT).show();
-                                    PreferenceManager.setBoolean(RegistActivity.this, "first_check_flag",true);
-                                    //Intent intent = new Intent(RegistActivity.this, MainActivity.class);
+                                    userData.setProfile_flag(false);
+                                    Regist_Success(userData);
+                                    Intent intent = new Intent(RegistActivity.this, MainActivity.class);
+                                    startActivity(intent);
                                 }
                             }
 
@@ -306,4 +310,17 @@ public class RegistActivity extends Activity {
             }
         }
     }
+
+    private void Regist_Success(UserVO uservo)
+    {
+        Toast.makeText(getApplicationContext(),"가입 성공.", Toast.LENGTH_SHORT).show();
+        PreferenceManager.setBoolean(RegistActivity.this, "first_check_flag",true);
+        PreferenceManager.setString(RegistActivity.this,"user_id", user_email);
+        PreferenceManager.setString(RegistActivity.this,"user_pw",user_pw);
+
+        MyApplication.user_data = uservo;
+
+    }
+
+
 }

@@ -26,6 +26,9 @@ public class UserVO {
     @SerializedName("seller_auth")
     private Boolean seller_auth;
 
+    @SerializedName("profile_flag")
+    private Boolean profile_flag;
+
     public String getId() {
         return id;
     }
@@ -82,9 +85,17 @@ public class UserVO {
         this.seller_auth = seller_auth;
     }
 
+    public Boolean getProfile_flag() {
+        return profile_flag;
+    }
+
+    public void setProfile_flag(Boolean profile_flag) {
+        this.profile_flag = profile_flag;
+    }
+
     @Override
     public String toString() {
-        return "User{" +
+        return "UserVO{" +
                 "id='" + id + '\'' +
                 ", pw='" + pw + '\'' +
                 ", name='" + name + '\'' +
@@ -92,6 +103,7 @@ public class UserVO {
                 ", introduce='" + introduce + '\'' +
                 ", share_point=" + share_point +
                 ", seller_auth=" + seller_auth +
+                ", profile_flag=" + profile_flag +
                 '}';
     }
 }

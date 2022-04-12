@@ -41,6 +41,9 @@ dependencies {
     //Glide 라이브러리
     implementation 'com.github.bumptech.glide:glide:4.12.0'
 
+    //Naver 지도 SDK
+    implementation 'com.naver.maps:map-sdk:3.14.1'
+
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
