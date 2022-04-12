@@ -34,7 +34,7 @@ public class SplashActivity extends Activity {
 
                 Intent intent;
 
-                if(Auto_Login!=null)
+                if(!Auto_Login.isEmpty())
                 {
                     intent = intent = new Intent(SplashActivity.this, MainActivity.class);
                     startActivity(intent);
