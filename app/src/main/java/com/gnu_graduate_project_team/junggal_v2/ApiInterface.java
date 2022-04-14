@@ -44,4 +44,13 @@ public interface ApiInterface {
 
     @POST("user/login")
     Call<UserVO> login(@Body UserVO user);
+
+
+    /** 휴대폰 인증 번호 보내기 **/
+    @POST("user/auth")
+    Call<PhoneVO> phone_auth(@Body PhoneVO phone);
+
+    /** 인증번호 인증하기 **/
+    @POST("user/authPass")
+    Call<PhoneVO> phone_auth_pass(@Body PhoneVO phone);
 }

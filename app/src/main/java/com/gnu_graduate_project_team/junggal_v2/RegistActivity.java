@@ -56,6 +56,7 @@ public class RegistActivity extends Activity {
     private String check_pw;
     private String user_name;
     private String user_introduce;
+    private String user_phone_number;
     private Bitmap user_profile;
     private Uri user_profile_uri;
     private RequestBody requestBody_user_profile = null;
@@ -73,6 +74,10 @@ public class RegistActivity extends Activity {
 
         Retrofit retrofit = ApiClient.getApiClient();
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+
+        Intent intent=getIntent();
+        user_phone_number = intent.getStringExtra("user_phone_number");
+
 
         regist_email = (EditText) findViewById(R.id.regist_email);
         regist_pw = (EditText) findViewById(R.id.regist_password);
@@ -137,7 +142,7 @@ public class RegistActivity extends Activity {
                     RequestBody id = RequestBody.create(MediaType.parse("text/plain"),user_email );
                     RequestBody pw = RequestBody.create(MediaType.parse("text/plain"),user_pw );
                     RequestBody name = RequestBody.create(MediaType.parse("text/plain"),user_name );
-                    RequestBody phone_num = RequestBody.create(MediaType.parse("text/plain"),"01012345678" );
+                    RequestBody phone_num = RequestBody.create(MediaType.parse("text/plain"),user_phone_number );
                     RequestBody introduce = RequestBody.create(MediaType.parse("text/plain"),user_introduce );
 
                     user_info.put("id", id);
@@ -150,7 +155,7 @@ public class RegistActivity extends Activity {
                     userData.setId(user_email);
                     userData.setPw(user_pw);
                     userData.setName(user_name);
-                    //userData.setPhone_number(user_phone_num);
+                    userData.setPhone_number(user_phone_number);
                     userData.setIntroduce(user_introduce);
 
 
@@ -179,6 +184,8 @@ public class RegistActivity extends Activity {
                                     Regist_Success(userData);
                                     Intent intent = new Intent(RegistActivity.this, MainActivity.class);
                                     startActivity(intent);
+
+                                    finish();
                                 }
                             }
 

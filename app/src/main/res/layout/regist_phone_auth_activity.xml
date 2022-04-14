@@ -30,7 +30,7 @@
         android:layout_marginBottom="10dp"/>
 
     <Button
-        android:id="@+id/auth_button"
+        android:id="@+id/auth_get_button"
         android:layout_width="280dp"
         android:layout_height="45dp"
         android:backgroundTint="#FFC000"
@@ -50,7 +50,7 @@
         android:layout_marginLeft="40dp"/>
 
     <EditText
-        android:id="@+id/phone_num2"
+        android:id="@+id/auth_num"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -68,5 +68,7 @@
         android:layout_height="45dp"
         android:backgroundTint="#FFC000"
         android:layout_gravity="center"
-        android:text="다음으로" />
+        android:text="인증하기" />
+
+
 </LinearLayout>

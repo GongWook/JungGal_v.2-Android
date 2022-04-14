@@ -16,13 +16,18 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class RegistPhoneAuthActivity extends Activity {
 
     private EditText phoneNum;
+    private EditText authNum;
     private Button auth_btn;
-    private Button next_btn;
-
-    static final int SMS_SEND_PERMISSION =1;
+    private Button auht_pass_btn;
+    private Button tmp_next_btn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,22 +35,81 @@ public class RegistPhoneAuthActivity extends Activity {
 
         setContentView(R.layout.regist_phone_auth_activity);
 
+        Retrofit retrofit = ApiClient.getApiClient();
+        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+
         phoneNum = (EditText) findViewById(R.id.phone_num);
-        auth_btn = (Button) findViewById(R.id.auth_button);
-        next_btn = (Button) findViewById(R.id.auth_next_button);
+        authNum = (EditText) findViewById(R.id.auth_num);
+        auth_btn = (Button) findViewById(R.id.auth_get_button);
+        auht_pass_btn = (Button) findViewById(R.id.auth_next_button);
 
         // 인증 번호 받는 버튼
         auth_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
-                sendSMS(phoneNum.getText().toString(),"메시지 전송 테스트");
-                
+
+                String phone_num = phoneNum.getText().toString().trim();
+
+                PhoneVO phone_info = new PhoneVO();
+                phone_info.setPhone_number(phone_num);
+
+                Call<PhoneVO> call = apiInterface.phone_auth(phone_info);
+                call.enqueue(new Callback<PhoneVO>() {
+                    @Override
+                    public void onResponse(Call<PhoneVO> call, Response<PhoneVO> response) {
+                        Toast.makeText(RegistPhoneAuthActivity.this,"인증번호 전송 성공",Toast.LENGTH_SHORT).show();
+                        auth_btn.setEnabled(false);
+                    }
+
+                    @Override
+                    public void onFailure(Call<PhoneVO> call, Throwable t) {
+                        Toast.makeText(RegistPhoneAuthActivity.this,"네트워크를 확인해 주세요.",Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
 
-        next_btn.setOnClickListener(new View.OnClickListener() {
+        auht_pass_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                PhoneVO phone_info = new PhoneVO();
+
+                String phone_num = phoneNum.getText().toString().trim();
+                String auth_num = authNum.getText().toString().trim();
+
+                phone_info.setPhone_number(phone_num);
+                phone_info.setAuth_number(auth_num);
+
+                Call<PhoneVO> call = apiInterface.phone_auth_pass(phone_info);
+                call.enqueue(new Callback<PhoneVO>() {
+                    @Override
+                    public void onResponse(Call<PhoneVO> call, Response<PhoneVO> response) {
+                        PhoneVO auth_state = response.body();
+                        if(auth_state.getSuccess_flag())
+                        {
+                            Intent intent = new Intent(RegistPhoneAuthActivity.this, RegistActivity.class);
+                            intent.putExtra("user_phone_number",phone_num);
+                            startActivity(intent);
+                            //Toast.makeText(RegistPhoneAuthActivity.this,"인증성공.",Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(RegistPhoneAuthActivity.this,"인증번호를 확인해 주세요.",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PhoneVO> call, Throwable t) {
+                        Toast.makeText(RegistPhoneAuthActivity.this,"네트워크를 확인해 주세요.",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+
+        tmp_next_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(RegistPhoneAuthActivity.this, RegistActivity.class);
@@ -54,46 +118,5 @@ public class RegistPhoneAuthActivity extends Activity {
         });
 
 
-
-        /***
-         * 문자 보내기 권환 확인
-         */
-
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
-
-        if(permissionCheck != PackageManager.PERMISSION_GRANTED)
-        {
-            //문자 보내기 권환 거부시
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS))
-            {
-                Toast.makeText(getApplicationContext(), "SMS 권한이 필요합니다.", Toast.LENGTH_SHORT).show();
-            }
-
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, SMS_SEND_PERMISSION);
-        }
-
-
-
-    }
-
-    /***
-     *  SMS 발송 기능
-     *
-     * @param phoneNumber
-     * @param message
-     *
-     */
-
-
-
-    private void sendSMS(String phoneNumber, String message)
-    {
-        PendingIntent pi = PendingIntent.getActivity(this, 0,
-                new Intent(this, RegistPhoneAuthActivity.class), 0);
-
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(phoneNumber, null, message, pi, null);
-
-        Toast.makeText(getBaseContext(), "메시지가 전송 되었습니다.", Toast.LENGTH_SHORT).show();
     }
 }
