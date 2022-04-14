@@ -43,7 +43,7 @@ public class RegistPhoneAuthActivity extends Activity {
         auth_btn = (Button) findViewById(R.id.auth_get_button);
         auht_pass_btn = (Button) findViewById(R.id.auth_next_button);
 
-        // 인증 번호 받는 버튼
+        // 인증 번호 받는 버튼//
         auth_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
