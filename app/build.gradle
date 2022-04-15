@@ -44,6 +44,9 @@ dependencies {
     //Naver 지도 SDK
     implementation 'com.naver.maps:map-sdk:3.14.1'
 
+    //Google 사용자 위치 추적
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
+
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
