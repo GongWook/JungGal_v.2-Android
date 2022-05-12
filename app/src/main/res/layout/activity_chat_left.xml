@@ -32,8 +32,9 @@
         android:paddingBottom="4dp"
         android:text="상대방이 보낸 메세지"
         android:textColor="#333d4b"
-        android:textSize="12sp"
+        android:textSize="13sp"
         android:fontFamily="@font/namugodicl"
+        android:background="@drawable/chat_left_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name" />
 

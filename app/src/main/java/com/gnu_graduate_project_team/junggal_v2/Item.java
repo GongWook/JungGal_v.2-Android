@@ -28,4 +28,20 @@ public class Item {
     public int getViewType() {
         return viewType;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setViewType(int viewType) {
+        this.viewType = viewType;
+    }
 }
