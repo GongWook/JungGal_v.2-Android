@@ -4,15 +4,39 @@ import com.google.gson.annotations.SerializedName;
 
 public class EggAnswerVO {
 
-    @SerializedName("input_text")
-    private String input_text;
 
-    public String getInput_text() {
-        return input_text;
+    @SerializedName("answer")
+    private String answer;
+
+    @SerializedName("intent")
+    private String intent;
+
+    @SerializedName("state")
+    private String state;
+
+
+    public String getAnswer() {
+        return answer;
     }
 
-    public void setInput_text(String input_text) {
-        this.input_text = input_text;
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public String getIntent() {
+        return intent;
+    }
+
+    public void setIntent(String intent) {
+        this.intent = intent;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
 }

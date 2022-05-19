@@ -8,10 +8,13 @@ public class EggchatVO {
     private String input_text;
 
     @SerializedName("x_coordinate")
-    private int x_coordinate;
+    private float x_coordinate;
 
     @SerializedName("y_coordinate")
-    private int y_coordinate;
+    private float y_coordinate;
+
+    @SerializedName("uid")
+    private String uid;
 
     public String getInput_text() {
         return input_text;
@@ -21,19 +24,27 @@ public class EggchatVO {
         this.input_text = input_text;
     }
 
-    public int getX_coordinate() {
+    public float getX_coordinate() {
         return x_coordinate;
     }
 
-    public void setX_coordinate(int x_coordinate) {
+    public void setX_coordinate(float x_coordinate) {
         this.x_coordinate = x_coordinate;
     }
 
-    public int getY_coordinate() {
+    public float getY_coordinate() {
         return y_coordinate;
     }
 
-    public void setY_coordinate(int y_coordinate) {
+    public void setY_coordinate(float y_coordinate) {
         this.y_coordinate = y_coordinate;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }
