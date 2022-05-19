@@ -27,7 +27,7 @@ public class RegistPhoneAuthActivity extends Activity {
     private EditText authNum;
     private Button auth_btn;
     private Button auht_pass_btn;
-    private Button tmp_next_btn;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +59,7 @@ public class RegistPhoneAuthActivity extends Activity {
                     public void onResponse(Call<PhoneVO> call, Response<PhoneVO> response) {
                         Toast.makeText(RegistPhoneAuthActivity.this,"인증번호 전송 성공",Toast.LENGTH_SHORT).show();
                         auth_btn.setEnabled(false);
+                        phoneNum.setEnabled(false);
                     }
 
                     @Override
@@ -109,13 +110,6 @@ public class RegistPhoneAuthActivity extends Activity {
         });
 
 
-        tmp_next_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(RegistPhoneAuthActivity.this, RegistActivity.class);
-                startActivity(intent);
-            }
-        });
 
 
     }

@@ -6,12 +6,12 @@ import com.google.gson.GsonBuilder;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ApiClient {
+public class NaverApiClient {
 
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http://203.255.3.237/";
+    private static final String BASE_URL = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/";
 
-    public static Retrofit getApiClient()
+    public static Retrofit getNaverApiClient()
     {
         Gson gson = new GsonBuilder()
                 .setLenient()
