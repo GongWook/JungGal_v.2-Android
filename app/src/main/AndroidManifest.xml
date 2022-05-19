@@ -62,9 +62,11 @@
         <activity android:name=".RegistAgreeActivity"/>
         <activity android:name=".RegistPhoneAuthActivity"/>
         <activity android:name=".RegistActivity"/>
+        <activity android:name=".ChatActivity"/>
         <activity android:name=".SharePostWriteActivity"/>
         <activity android:name=".SharePostlocationActivity"/>
         <activity android:name=".SharePostIconActivity"/>
+ 
     </application>
 
 </manifest>
