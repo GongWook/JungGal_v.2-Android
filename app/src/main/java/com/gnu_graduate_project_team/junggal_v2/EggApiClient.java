@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class EggApiClient {
 
     private static Retrofit retrofit;
-    private static final String BASE_URL = "https://2d18-203-255-3-48.jp.ngrok.io";
+    private static final String BASE_URL = "https://6bb0-203-255-3-48.jp.ngrok.io";
 
     public static Retrofit getApiClient()
     {

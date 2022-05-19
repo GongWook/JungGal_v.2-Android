@@ -1,9 +1,7 @@
 package com.gnu_graduate_project_team.junggal_v2;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,48 +57,90 @@ public class ChatActivity extends Activity {
 
                 EggchatVO chat = new EggchatVO();
                 chat.setInput_text(input_content);
-                chat.setX_coordinate(12);
-                chat.setY_coordinate(34);
+                chat.setX_coordinate((float) 182.567);
+                chat.setY_coordinate((float) 35.678);
+                chat.setUid("this_is_uid");
                 Item item = new Item(input_content, "tester", timeStamp, ViewType.RIGHT_CHAT);
                 dataList.add(item);
 
+                egg_edit_text.setText("");
+
+                /** 전송 시 recyclerview 새로고침 **/
                 MyAdapter adapter = new MyAdapter(dataList);
                 RecyclerView ryv = findViewById(R.id.eggong_chat_recycler_view);
                 ryv.setAdapter(adapter);
 
-                Call<EggAnswerVO> call = eggInterface.egg_chat(chat);
-                Log.v("here", item.getContent());
-                call.enqueue(new Callback<EggAnswerVO>() {
-                    @Override
-                    public void onResponse(Call<EggAnswerVO> call, Response<EggAnswerVO> response) {
-                        EggAnswerVO egg_answer_content = response.body();
+                if (item.getContent().contains("안녕"))
+                {
+                    Item egg_answer = new Item("안녕하세요, 저는 정갈의 마스코트 달걀이에요", "달걀이", timeStamp, ViewType.LEFT_CHAT);
+                    dataList.add(egg_answer);
 
-                        if (egg_answer_content.getInput_text().equals(null))
-                        {
-                            Log.v("android to server","실패 \n 참고: EggApiClient URL 체크");
+                    /** 전송 시 recyclerview 새로고침 **/
+                    adapter = new MyAdapter(dataList);
+                    ryv.setAdapter(adapter);
+                }
+                else if (item.getContent().contains("고마워"))
+                {
+                    Item egg_answer = new Item("천만에요. 언제든 필요한 것 있으시면 말씀해주세요. \n더 물어보실 건 없나요?", "달걀이", timeStamp, ViewType.LEFT_CHAT);
+                    dataList.add(egg_answer);
+
+                    /** 전송 시 recyclerview 새로고침 **/
+                    adapter = new MyAdapter(dataList);
+                    ryv.setAdapter(adapter);
+                }
+                else if (item.getContent().contains("없어"))
+                {
+                    Item egg_answer = new Item("그렇군요. 알겠습니다!", "달걀이", timeStamp, ViewType.LEFT_CHAT);
+                    dataList.add(egg_answer);
+
+                    /** 전송 시 recyclerview 새로고침 **/
+                    adapter = new MyAdapter(dataList);
+                    ryv.setAdapter(adapter);
+                }
+                else {
+                    /** Kochat server와 통신 **/
+                    Call<EggAnswerVO> call = eggInterface.egg_chat(chat);
+                    Log.v("here", item.getContent());
+                    call.enqueue(new Callback<EggAnswerVO>() {
+                        @Override
+                        public void onResponse(Call<EggAnswerVO> call, Response<EggAnswerVO> response) {
+                            EggAnswerVO egg_answer_content = response.body();
+
+                            if (egg_answer_content.getIntent().equals("FALLBACK"))
+                            {
+                                Log.v("android to server","실패 \n 참고: EggApiClient URL 체크");
+                                Item egg_answer = new Item("그 정보는 알 수 없습니다..", "달걀이", timeStamp, ViewType.LEFT_CHAT);
+                                dataList.add(egg_answer);
+
+                                /** 전송 시 recyclerview 새로고침 **/
+                                MyAdapter adapter = new MyAdapter(dataList);
+                                RecyclerView ryv = findViewById(R.id.eggong_chat_recycler_view);
+                                ryv.setAdapter(adapter);
+                            }
+                            else {
+                                Log.v("답 받아오기",egg_answer_content.getAnswer());
+                                Item egg_answer = new Item(egg_answer_content.getAnswer(), "달걀이", timeStamp, ViewType.LEFT_CHAT);
+                                dataList.add(egg_answer);
+
+                                /** 전송 시 recyclerview 새로고침 **/
+                                MyAdapter adapter = new MyAdapter(dataList);
+                                RecyclerView ryv = findViewById(R.id.eggong_chat_recycler_view);
+                                ryv.setAdapter(adapter);
+
+                            }
 
                         }
-                        else {
-                            Log.v("답 받아오기",egg_answer_content.getInput_text());
-                            Item egg_answer = new Item(egg_answer_content.getInput_text(), "달걀이", timeStamp, ViewType.LEFT_CHAT);
-                            dataList.add(egg_answer);
 
-                            /** 전송 시 recyclerview 새로고침 **/
-                            MyAdapter adapter = new MyAdapter(dataList);
-                            RecyclerView ryv = findViewById(R.id.eggong_chat_recycler_view);
-                            ryv.setAdapter(adapter);
-
+                        @Override
+                        public void onFailure(Call<EggAnswerVO> call, Throwable t) {
+                            Toast.makeText(ChatActivity.this, "네트워크를 확인해 주세요",Toast.LENGTH_LONG).show();
+                            Log.v("연결 실패","fail");
                         }
 
-                    }
+                    });
+                }
 
-                    @Override
-                    public void onFailure(Call<EggAnswerVO> call, Throwable t) {
-                        Toast.makeText(ChatActivity.this, "네트워크를 확인해 주세요",Toast.LENGTH_SHORT).show();
-                        Log.v("연결 실패","fail");
-                    }
 
-                });
             }
         });
 
