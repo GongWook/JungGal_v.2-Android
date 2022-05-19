@@ -34,6 +34,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ImageView share_icon;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        /** 사용자 위치  **/
+        locationSource =
+                new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
+
+        /** 네이버 지도 xml과 연동  **/
+        FragmentManager fm = getSupportFragmentManager();
+        MapFragment mapFragment = (MapFragment)fm.findFragmentById(R.id.map);
+        if (mapFragment == null) {
+            mapFragment = MapFragment.newInstance();
+            fm.beginTransaction().add(R.id.map, mapFragment).commit();
+        }
+
+        /** 네이버 지도 api 호출 **/
+        mapFragment.getMapAsync(this);
+
+        share_icon = (ImageView) findViewById(R.id.food_share);
+
+
+
+        /** 음식 나눔 클릭 이벤트 **/
+        share_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,SharePostWriteActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Log.d("resum_test","success");
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);

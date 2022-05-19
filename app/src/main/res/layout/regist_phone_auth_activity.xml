@@ -24,7 +24,7 @@
         android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="phone"
-        android:hint="  Ex) 01067641377"
+        android:hint="  Ex) 01012345678"
         android:fontFamily="@font/namugodicl"
         android:textSize="28sp"
         android:layout_marginBottom="10dp"/>
