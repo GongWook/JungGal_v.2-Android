@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingTop="15dp"
+        android:orientation="horizontal">
+
+
+
+        <TextView
+            android:id="@+id/textView49"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginLeft="45dp"
+            android:paddingRight="25dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_gravity=""
+            android:text="나눔 아이콘"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/share_icon_radio_group"
+        android:layout_width="280dp"
+        android:layout_height="550dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp">
+
+        <RadioButton
+            android:id="@+id/koreanFood"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:drawableLeft="@drawable/korean_food_custom"
+            android:drawablePadding="60dip"
+            android:paddingLeft="70dip"
+            android:fontFamily="@font/namugodicl"
+            android:text="한식"
+            android:textSize="20dp"
+            android:buttonTint="#FFC000"
+            />
+
+
+
+        <RadioButton
+            android:id="@+id/chineseFood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/chinese_food_custom"
+            android:drawablePadding="60dip"
+            android:paddingLeft="70dip"
+            android:text="중식"
+            android:textSize="20dp"
+            android:fontFamily="@font/namugodicl"
+            android:buttonTint="#FFC000"
+            android:layout_marginTop="10dp"/>
+
+
+        <RadioButton
+            android:id="@+id/japaneseFood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/japanese_food_custom"
+            android:drawablePadding="60dip"
+            android:paddingLeft="70dip"
+            android:text="일식"
+            android:textSize="20dp"
+            android:fontFamily="@font/namugodicl"
+            android:buttonTint="#FFC000"
+            android:layout_marginTop="10dp" />
+
+        <RadioButton
+            android:id="@+id/westernFood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/western_food_custom"
+            android:drawablePadding="60dip"
+            android:paddingLeft="70dip"
+            android:text="양식"
+            android:textSize="20dp"
+            android:fontFamily="@font/namugodicl"
+            android:buttonTint="#FFC000"
+            android:layout_marginTop="10dp" />
+
+        <RadioButton
+            android:id="@+id/meat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/meat_food_custom"
+            android:drawablePadding="60dip"
+            android:paddingLeft="70dip"
+            android:text="육류"
+            android:textSize="20dp"
+            android:fontFamily="@font/namugodicl"
+            android:buttonTint="#FFC000"
+            android:layout_marginTop="10dp" />
+
+        <RadioButton
+            android:id="@+id/seaFood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/seafood_custom"
+            android:drawablePadding="60dip"
+            android:paddingLeft="70dip"
+            android:text="해산물"
+            android:textSize="20dp"
+            android:fontFamily="@font/namugodicl"
+            android:buttonTint="#FFC000"
+            android:layout_marginTop="10dp" />
+        <RadioButton
+            android:id="@+id/healthyFood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/healthy_food_custom"
+            android:drawablePadding="60dip"
+            android:paddingLeft="70dip"
+            android:text="건강식"
+            android:textSize="20dp"
+            android:fontFamily="@font/namugodicl"
+            android:buttonTint="#FFC000"
+            android:layout_marginTop="10dp" />
+
+        <RadioButton
+            android:id="@+id/snack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/snack_food_custom"
+            android:drawablePadding="60dip"
+            android:paddingLeft="70dip"
+            android:text="간식"
+            android:textSize="20dp"
+            android:fontFamily="@font/namugodicl"
+            android:buttonTint="#FFC000"
+            android:layout_marginTop="10dp" />
+
+        <RadioButton
+            android:id="@+id/foodIngredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/food_ingredients_custom"
+            android:drawablePadding="60dip"
+            android:paddingLeft="70dip"
+            android:text="식자재"
+            android:textSize="20dp"
+            android:fontFamily="@font/namugodicl"
+            android:buttonTint="#FFC000"
+            android:layout_marginTop="10dp" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/select_btn"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_weight="0"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#FFC000"
+        android:gravity="center"
+        android:text="선택 완료"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF" />
+
+</LinearLayout>
