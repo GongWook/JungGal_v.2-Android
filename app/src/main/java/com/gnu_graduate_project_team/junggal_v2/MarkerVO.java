@@ -13,11 +13,11 @@ public class MarkerVO {
     @SerializedName("share_post_name")
     private String share_post_name;
 
-    @SerializedName("Latitude")
-    private String Latitude;
+    @SerializedName("latitude")
+    private Double Latitude;
 
-    @SerializedName("Longitude")
-    private String Longitude;
+    @SerializedName("longitude")
+    private Double Longitude;
 
     public MarkerVO() {
 
@@ -47,19 +47,30 @@ public class MarkerVO {
         this.share_post_name = share_post_name;
     }
 
-    public String getLatitude() {
+    public Double getLatitude() {
         return Latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(Double latitude) {
         Latitude = latitude;
     }
 
-    public String getLongitude() {
+    public Double getLongitude() {
         return Longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(Double longitude) {
         Longitude = longitude;
+    }
+
+    @Override
+    public String toString() {
+        return "MarkerVO{" +
+                "share_post_id=" + share_post_id +
+                ", share_post_icon=" + share_post_icon +
+                ", share_post_name='" + share_post_name + '\'' +
+                ", Latitude=" + Latitude +
+                ", Longitude=" + Longitude +
+                '}';
     }
 }

@@ -4,6 +4,10 @@ public class Point {
 
     private String point;
 
+    public Point(String point) {
+        this.point = point;
+    }
+
     public String getPoint() {
         return point;
     }
