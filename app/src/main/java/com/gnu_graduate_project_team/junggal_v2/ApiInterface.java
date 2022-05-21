@@ -41,10 +41,8 @@ public interface ApiInterface {
     Call<UserVO> registUser_nonProfile(@PartMap Map<String, RequestBody> params);
 
     /** 로그인 정보 보내기 **/
-
     @POST("user/login")
     Call<UserVO> login(@Body UserVO user);
-
 
     /** 휴대폰 인증 번호 보내기 **/
     @POST("user/auth")

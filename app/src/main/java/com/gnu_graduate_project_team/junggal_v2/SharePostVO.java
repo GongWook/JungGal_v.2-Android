@@ -6,8 +6,8 @@ import java.sql.Timestamp;
 
 public class SharePostVO {
 
-    @SerializedName("sharePostId")
-    private Integer sharePostId;
+    @SerializedName("share_post_id")
+    private Integer share_post_id;
 
     @SerializedName("user_id")
     private String user_id;
@@ -42,14 +42,12 @@ public class SharePostVO {
     @SerializedName("shared_people")
     private Integer shared_people;
 
-    public Integer getSharePostId() {
-        return sharePostId;
+    public Integer getShare_post_id() {
+        return share_post_id;
     }
-
-    public void setSharePostId(Integer sharePostId) {
-        this.sharePostId = sharePostId;
+    public void setShare_post_id(Integer share_post_id) {
+        this.share_post_id = share_post_id;
     }
-
     public String getUser_id() {
         return user_id;
     }
@@ -141,7 +139,7 @@ public class SharePostVO {
     @Override
     public String toString() {
         return "SharePostVO{" +
-                "sharePostId=" + sharePostId +
+                "share_post_id=" + share_post_id +
                 ", user_id='" + user_id + '\'' +
                 ", share_post_name='" + share_post_name + '\'' +
                 ", share_post_img_cnt=" + share_post_img_cnt +

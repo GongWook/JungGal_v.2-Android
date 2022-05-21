@@ -328,7 +328,7 @@ public class SharePostWriteActivity extends Activity {
                                         public void onResponse(Call<SharePostVO> call, Response<SharePostVO> response) {
 
                                             SharePostVO checkVO = response.body();
-                                            if(checkVO.getSharePostId()!=null)
+                                            if(checkVO.getShare_post_id()!=null)
                                             {
                                                 Log.d("upload_test", "test성공");
                                                 finish();

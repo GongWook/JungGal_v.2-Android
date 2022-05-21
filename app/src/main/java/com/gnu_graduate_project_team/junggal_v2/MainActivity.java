@@ -8,8 +8,11 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +20,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
@@ -24,12 +29,22 @@ import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.util.FusedLocationSource;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback{
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     /** 사용자 위치 받아오는 변수 **/
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     private FusedLocationSource locationSource;
     private NaverMap naverMap;
+
+
+    /** 카메라 관련 변수 **/
+    private double zoomLevel;
+    private Boolean initflag = false;
+    private Boolean moveflag = false;
+    private LatLng cameraPosition;
+    private final int REASON_GESTURE = -1;
+    private final int REASON_INIT = -3;
+
 
     private ImageView share_icon;
 
@@ -41,9 +56,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         locationSource =
                 new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
 
+
         /** 네이버 지도 xml과 연동  **/
         FragmentManager fm = getSupportFragmentManager();
-        MapFragment mapFragment = (MapFragment)fm.findFragmentById(R.id.map);
+        MapFragment mapFragment = (MapFragment) fm.findFragmentById(R.id.map);
         if (mapFragment == null) {
             mapFragment = MapFragment.newInstance();
             fm.beginTransaction().add(R.id.map, mapFragment).commit();
@@ -55,17 +71,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         share_icon = (ImageView) findViewById(R.id.food_share);
 
 
-
         /** 음식 나눔 클릭 이벤트 **/
         share_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,SharePostWriteActivity.class);
+                Intent intent = new Intent(MainActivity.this, SharePostWriteActivity.class);
                 startActivity(intent);
             }
         });
 
-        Log.d("resum_test","success");
+        Log.d("resum_test", "success");
     }
 
     @Override
@@ -73,13 +88,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         /** 사용자 위치  **/
         locationSource =
                 new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
 
+
         /** 네이버 지도 xml과 연동  **/
         FragmentManager fm = getSupportFragmentManager();
-        MapFragment mapFragment = (MapFragment)fm.findFragmentById(R.id.map);
+        MapFragment mapFragment = (MapFragment) fm.findFragmentById(R.id.map);
         if (mapFragment == null) {
             mapFragment = MapFragment.newInstance();
             fm.beginTransaction().add(R.id.map, mapFragment).commit();
@@ -91,12 +108,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         share_icon = (ImageView) findViewById(R.id.food_share);
 
 
-
         /** 음식 나눔 클릭 이벤트 **/
         share_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,SharePostWriteActivity.class);
+                Intent intent = new Intent(MainActivity.this, SharePostWriteActivity.class);
                 startActivity(intent);
             }
         });
@@ -106,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     /** 사용자 위치  **/
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,  @NonNull int[] grantResults) {
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (locationSource.onRequestPermissionsResult(
                 requestCode, permissions, grantResults)) {
             if (!locationSource.isActivated()) { // 권한 거부됨
@@ -129,9 +145,56 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
 
         UiSettings uiSettings = naverMap.getUiSettings();
-        uiSettings.setLocationButtonEnabled(true);
+        uiSettings.setLocationButtonEnabled(false);
 
         naverMap.setIndoorEnabled(true);
+
+        /** zoom level 설정 **/
+        naverMap.setMinZoom(11.0);
+        naverMap.setMaxZoom(17.0);
+
+
+        // 카메라 변경 이벤트
+        naverMap.addOnCameraChangeListener(new NaverMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(int reason, boolean b) {
+
+                Log.d("camera change test",reason+"");
+
+                if( reason == REASON_GESTURE)
+                {
+                    moveflag = true;
+                }
+                else if (reason == REASON_INIT)
+                {
+                    naverMap.setLocationTrackingMode(LocationTrackingMode.NoFollow);
+                    initflag = true;
+                }
+
+            }
+        });
+
+
+        //카메라 대기상태 리스너
+        naverMap.addOnCameraIdleListener(new NaverMap.OnCameraIdleListener() {
+            @Override
+            public void onCameraIdle() {
+
+                if(moveflag == true)
+                {
+                    cameraPosition = naverMap.getCameraPosition().target;
+                    moveflag = false;
+                }
+
+                if (initflag == true)
+                {
+                    cameraPosition = naverMap.getCameraPosition().target;
+                    initflag = false;
+                }
+
+            }
+        });
+
 
     }
 
