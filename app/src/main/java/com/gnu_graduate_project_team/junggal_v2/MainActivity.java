@@ -1,7 +1,9 @@
 package com.gnu_graduate_project_team.junggal_v2;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -14,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.naver.maps.geometry.LatLng;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
@@ -109,6 +113,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mHandler = new Handler();
 
+        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                startActivity(intent);
+            }
+        });
+
         /** 사용자 위치  **/
         locationSource =
                 new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
@@ -126,6 +139,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
         share_icon = (ImageView) findViewById(R.id.food_share);
+
+
 
 
         /** 음식 나눔 클릭 이벤트 **/
