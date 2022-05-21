@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private NaverMap naverMap;
 
 
+
+
     /** 카메라 관련 변수 **/
     private double zoomLevel;
     private Boolean initflag = false;
