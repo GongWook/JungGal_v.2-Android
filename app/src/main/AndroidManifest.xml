@@ -22,7 +22,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- 사용자 위치 추적 권환 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"
+        tools:ignore="CoarseFineLocation" />
 
 
     <application
@@ -66,7 +67,7 @@
         <activity android:name=".SharePostWriteActivity"/>
         <activity android:name=".SharePostlocationActivity"/>
         <activity android:name=".SharePostIconActivity"/>
- 
+
     </application>
 
 </manifest>
