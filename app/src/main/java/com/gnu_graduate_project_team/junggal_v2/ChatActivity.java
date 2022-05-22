@@ -2,6 +2,7 @@ package com.gnu_graduate_project_team.junggal_v2;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +28,10 @@ public class ChatActivity extends Activity {
     private EditText egg_edit_text;
     private Button egg_send_text;
 
+
+    /** Thread 사용 **/
+    Handler mHandler = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,10 +40,14 @@ public class ChatActivity extends Activity {
         Retrofit retrofit = EggApiClient.getApiClient();
         EggInterface eggInterface = retrofit.create(EggInterface.class);
 
+        /** 문자 입력칸과 전송 버튼**/
         egg_edit_text = (EditText) findViewById(R.id.egg_edit_text);
         egg_send_text = (Button) findViewById(R.id.egg_send_text);
 
         this.initializeData();
+
+        /** Thread 사용 위한 Handler **/
+        mHandler = new Handler();
 
         RecyclerView recyclerView = findViewById(R.id.eggong_chat_recycler_view);
 
@@ -57,8 +66,8 @@ public class ChatActivity extends Activity {
 
                 EggchatVO chat = new EggchatVO();
                 chat.setInput_text(input_content);
-                chat.setX_coordinate((float) 182.567);
-                chat.setY_coordinate((float) 35.678);
+                chat.setX_coordinate((float) 129.9);
+                chat.setY_coordinate((float) 40.1);
                 chat.setUid("this_is_uid");
                 Item item = new Item(input_content, "tester", timeStamp, ViewType.RIGHT_CHAT);
                 dataList.add(item);
@@ -88,6 +97,7 @@ public class ChatActivity extends Activity {
                     adapter = new MyAdapter(dataList);
                     ryv.setAdapter(adapter);
                 }
+
                 else if (item.getContent().contains("없어"))
                 {
                     Item egg_answer = new Item("그렇군요. 알겠습니다!", "달걀이", timeStamp, ViewType.LEFT_CHAT);
@@ -98,46 +108,61 @@ public class ChatActivity extends Activity {
                     ryv.setAdapter(adapter);
                 }
                 else {
-                    /** Kochat server와 통신 **/
-                    Call<EggAnswerVO> call = eggInterface.egg_chat(chat);
-                    Log.v("here", item.getContent());
-                    call.enqueue(new Callback<EggAnswerVO>() {
+                    Thread t = new Thread(new Runnable() {
                         @Override
-                        public void onResponse(Call<EggAnswerVO> call, Response<EggAnswerVO> response) {
-                            EggAnswerVO egg_answer_content = response.body();
+                        public void run() {
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    /** Kochat server와 통신 **/
+                                    Call<EggAnswerVO> call = eggInterface.egg_chat(chat);
+                                    Log.v("here", chat.getInput_text() + chat.getUid());
+                                    call.enqueue(new Callback<EggAnswerVO>() {
+                                        @Override
+                                        public void onResponse(Call<EggAnswerVO> call, Response<EggAnswerVO> response) {
+                                            Log.v("OnResponse는 ", "들어왔음");
+                                            EggAnswerVO egg_answer_content = response.body();
+                                            Log.d("egg_answer_content", "body도 받아왔음");
 
-                            if (egg_answer_content.getIntent().equals("FALLBACK"))
-                            {
-                                Log.v("android to server","실패 \n 참고: EggApiClient URL 체크");
-                                Item egg_answer = new Item("그 정보는 알 수 없습니다..", "달걀이", timeStamp, ViewType.LEFT_CHAT);
-                                dataList.add(egg_answer);
+                                            if (egg_answer_content.getIntent().equals("FALLBACK"))
+                                            {
+                                                Log.v("android to server","실패 \n 참고: EggApiClient URL 체크");
+                                                Item egg_answer = new Item("그 정보는 알 수 없습니다..", "달걀이", timeStamp, ViewType.LEFT_CHAT);
+                                                dataList.add(egg_answer);
 
-                                /** 전송 시 recyclerview 새로고침 **/
-                                MyAdapter adapter = new MyAdapter(dataList);
-                                RecyclerView ryv = findViewById(R.id.eggong_chat_recycler_view);
-                                ryv.setAdapter(adapter);
-                            }
-                            else {
-                                Log.v("답 받아오기",egg_answer_content.getAnswer());
-                                Item egg_answer = new Item(egg_answer_content.getAnswer(), "달걀이", timeStamp, ViewType.LEFT_CHAT);
-                                dataList.add(egg_answer);
+                                                /** 전송 시 recyclerview 새로고침 **/
+                                                MyAdapter adapter = new MyAdapter(dataList);
+                                                RecyclerView ryv = findViewById(R.id.eggong_chat_recycler_view);
+                                                ryv.setAdapter(adapter);
+                                            }
+                                            else {
+                                                Log.v("답 받아오기",egg_answer_content.getAnswer());
+                                                Item egg_answer = new Item(egg_answer_content.getAnswer(), "달걀이", timeStamp, ViewType.LEFT_CHAT);
+                                                dataList.add(egg_answer);
 
-                                /** 전송 시 recyclerview 새로고침 **/
-                                MyAdapter adapter = new MyAdapter(dataList);
-                                RecyclerView ryv = findViewById(R.id.eggong_chat_recycler_view);
-                                ryv.setAdapter(adapter);
+                                                /** 전송 시 recyclerview 새로고침 **/
+                                                MyAdapter adapter = new MyAdapter(dataList);
+                                                RecyclerView ryv = findViewById(R.id.eggong_chat_recycler_view);
+                                                ryv.setAdapter(adapter);
 
-                            }
+                                            }
 
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<EggAnswerVO> call, Throwable t) {
+                                            Toast.makeText(ChatActivity.this, "네트워크를 확인해 주세요",Toast.LENGTH_LONG).show();
+                                            Log.v("연결 실패","fail");
+                                        }
+
+                                    });
+                                }
+                            });
                         }
-
-                        @Override
-                        public void onFailure(Call<EggAnswerVO> call, Throwable t) {
-                            Toast.makeText(ChatActivity.this, "네트워크를 확인해 주세요",Toast.LENGTH_LONG).show();
-                            Log.v("연결 실패","fail");
-                        }
-
                     });
+
+                    t.start();
+
                 }
 
 
