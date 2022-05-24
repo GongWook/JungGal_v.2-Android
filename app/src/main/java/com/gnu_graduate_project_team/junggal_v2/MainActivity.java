@@ -42,9 +42,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     private FusedLocationSource locationSource;
     private NaverMap naverMap;
-
-
-
+    private LatLng userLocation;
 
     /** 카메라 관련 변수 **/
     private double zoomLevel;
@@ -115,11 +113,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mHandler = new Handler();
 
+        /** 달걀이 채팅 버튼 **/
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                intent.putExtra("userLatitude",userLocation.latitude);
+                intent.putExtra("userLongitude",userLocation.longitude);
                 startActivity(intent);
             }
         });
@@ -240,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if (initflag == true)
                 {
                     cameraPosition = naverMap.getCameraPosition().target;
+                    userLocation = naverMap.getCameraPosition().target;
                     initflag = false;
 
                     Thread t = new Thread(new Runnable() {

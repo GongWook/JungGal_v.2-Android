@@ -63,8 +63,10 @@
             android:layout_gravity="bottom|right"
             android:layout_marginRight="30dp"
             android:layout_marginBottom="20dp"
-            android:src="@drawable/friedegg"
-            app:fabSize="normal"
+            android:src="@drawable/ai_egg_chat"
+            app:tint="@null"
+            app:fabSize="auto"
+            app:maxImageSize="55dp"
             android:backgroundTint="#FFFFFF"/>
 
 

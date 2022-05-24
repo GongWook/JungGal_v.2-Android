@@ -1,6 +1,8 @@
 package com.gnu_graduate_project_team.junggal_v2;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -12,6 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.naver.maps.geometry.LatLng;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +31,10 @@ public class ChatActivity extends Activity {
     private ArrayList<Item> dataList;
     private EditText egg_edit_text;
     private Button egg_send_text;
+
+    /** 사용자 좌표 **/
+    private LatLng userLocation;
+
 
 
     /** Thread 사용 **/
@@ -46,6 +54,14 @@ public class ChatActivity extends Activity {
 
         this.initializeData();
 
+        /** 사용자 위치 좌표 받아오기 **/
+        Intent intent = getIntent();
+        double latitude = intent.getDoubleExtra("userLatitude",0.0);
+        double longitude = intent.getDoubleExtra("userLongitude",0.0);
+        Log.d("userLatitude",latitude+"");
+        Log.d("userLongitude",longitude+"");
+
+
         /** Thread 사용 위한 Handler **/
         mHandler = new Handler();
 
@@ -64,10 +80,13 @@ public class ChatActivity extends Activity {
                 String input_content = egg_edit_text.getText().toString().trim();
                 String timeStamp = new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
 
+
+
+
                 EggchatVO chat = new EggchatVO();
                 chat.setInput_text(input_content);
-                chat.setX_coordinate((float) 129.9);
-                chat.setY_coordinate((float) 40.1);
+                chat.setX_coordinate((float) longitude);
+                chat.setY_coordinate((float) latitude);
                 chat.setUid("this_is_uid");
                 Item item = new Item(input_content, "tester", timeStamp, ViewType.RIGHT_CHAT);
                 dataList.add(item);
