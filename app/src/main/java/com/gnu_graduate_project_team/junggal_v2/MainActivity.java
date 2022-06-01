@@ -25,6 +25,7 @@ import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.Marker;
+import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.FusedLocationSource;
 
@@ -332,18 +333,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     break;
 
             }
-            marker.setTag(m.getShare_post_name());
+            marker.setTag(m.getShare_post_name()+"_"+m.getShare_post_id());
 
-            /** infowoindow adapter **/
+            /** infowoindow adapter 나중에 터질 수도 있을 우려가 있음 checking **/
             infoWindow.setAdapter(new InfoWindow.DefaultTextAdapter(getApplicationContext()) {
                 @NonNull
                 @Override
                 public CharSequence getText(@NonNull InfoWindow infoWindow) {
-                    return (CharSequence) infoWindow.getMarker().getTag();
+                    String tmp = (String) infoWindow.getMarker().getTag();
+                    String[] postname = tmp.split("_");
+                    return (CharSequence) postname[0];
                 }
             });
 
-            /** infowindow 클릭시 리스너
+            /** infowindow 클릭시 리스너 **/
+            infoWindow.setOnClickListener(new Overlay.OnClickListener() {
+                @Override
+                public boolean onClick(@NonNull  Overlay overlay) {
+                    String tmp = (String) infoWindow.getMarker().getTag();
+                    String[] postname = tmp.split("_");
+                    Intent intent = new Intent(MainActivity.this, SharePostActivity.class);
+                    intent.putExtra("sharePostID", Integer.parseInt(postname[1]));
+                    startActivity(intent);
+                    return true;
+                }
+            });
 
             /** Marker 클릭시 리스너 **/
             marker.setOnClickListener(overlay -> {
