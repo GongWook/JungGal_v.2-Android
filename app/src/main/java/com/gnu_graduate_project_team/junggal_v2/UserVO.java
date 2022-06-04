@@ -29,6 +29,9 @@ public class UserVO {
     @SerializedName("profile_flag")
     private Boolean profile_flag;
 
+    @SerializedName("imagedata")
+    private String imagedata;
+
     public String getId() {
         return id;
     }
@@ -91,6 +94,14 @@ public class UserVO {
 
     public void setProfile_flag(Boolean profile_flag) {
         this.profile_flag = profile_flag;
+    }
+
+    public String getImagedata() {
+        return imagedata;
+    }
+
+    public void setImagedata(String imagedata) {
+        this.imagedata = imagedata;
     }
 
     @Override

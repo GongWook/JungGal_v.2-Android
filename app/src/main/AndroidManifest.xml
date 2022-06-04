@@ -36,8 +36,7 @@
         android:theme="@style/Theme.JungGal_v2"
         android:usesCleartextTraffic="true"
 
-        android:appComponentFactory="whateverString"
-        tools:replace="android:appComponentFactory">
+        >
 
         <!-- 네이버 지도 -->
         <meta-data
