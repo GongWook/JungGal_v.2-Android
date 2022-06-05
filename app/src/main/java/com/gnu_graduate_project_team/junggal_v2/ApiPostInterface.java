@@ -35,5 +35,9 @@ public interface ApiPostInterface {
     @POST("share_post/display")
     Call<SharePostImageVO> getPostImg(@Body SharePostVO postVO);
 
+    /** 나눔 게시물 Delete **/
+    @POST("share_post/deletePost")
+    Call<SharePostVO> deletPost(@Body SharePostVO postVO);
+
 
 }

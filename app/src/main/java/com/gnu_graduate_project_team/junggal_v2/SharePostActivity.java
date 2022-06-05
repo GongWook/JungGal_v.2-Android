@@ -1,10 +1,12 @@
 package com.gnu_graduate_project_team.junggal_v2;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
@@ -15,10 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,6 +54,21 @@ public class SharePostActivity extends Activity {
     private ImageView SharePostWriterProfile;
 
     private ImageView backBtn;
+    private TextView deletePostBtn;
+
+    private ImageView sharePostPutInForBtn;
+
+    /** Timer **/
+    private String postDay;
+    private String postHour;
+    private String postMin;
+    private String nowDay;
+    private String nowHour;
+    private String nowMin;
+    private long shareTime = 0;
+    private TextView SharePostTimer;
+    private Timer timer;
+    private Boolean shareflag = false;
 
 
     /** Retrofit2 / ApiPostInterfae 호출 **/
@@ -62,10 +82,24 @@ public class SharePostActivity extends Activity {
     private Integer imageCnt;
     private SharePostImageVO imagedata;
 
+    /** 게시물 삭제 관련 변수 **/
+    private String user_ID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.share_post_activity);
+
+        user_ID = PreferenceManager.getString(SharePostActivity.this,"user_id");
+
+        //Timer
+        Date today = new Date();
+        SimpleDateFormat sdf1 = new SimpleDateFormat("dd");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("H");
+        SimpleDateFormat sdf3 = new SimpleDateFormat("m");
+        nowDay = sdf1.format(today);
+        nowHour = sdf2.format(today);
+        nowMin = sdf3.format(today);
 
         /** xml 요소 초기화 **/
         sharePostName = (TextView) findViewById(R.id.sharePostName);
@@ -76,6 +110,9 @@ public class SharePostActivity extends Activity {
         sharePostUserIntro = (TextView) findViewById(R.id.sharePostUserIntro);
         SharePostWriterProfile = (ImageView) findViewById(R.id.SharePostWriterProfile);
         backBtn = (ImageView) findViewById(R.id.backBtn);
+        SharePostTimer = (TextView) findViewById(R.id.SharePostTimer);
+        deletePostBtn = (TextView) findViewById(R.id.deletePostBtn);
+        sharePostPutInForBtn = (ImageView) findViewById(R.id.sharePostPutInForBtn);
 
         /** Thread 사용 **/
         mHandler = new Handler();
@@ -102,6 +139,27 @@ public class SharePostActivity extends Activity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        /** 나눔 신청 버튼 리스너 **/
+        sharePostPutInForBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(shareflag==false)
+                {
+                    Intent putInForIntent = new Intent(SharePostActivity.this,SharePostPutInForActivity.class);
+                    putInForIntent.putExtra("remainTime", SharePostTimer.getText().toString().trim());
+                    putInForIntent.putExtra("remainPeople",sharePostsharePeople.getText().toString().trim());
+                    startActivity(putInForIntent);
+                }
+                else
+                {
+                    Toast.makeText(SharePostActivity.this, "나눔이 종료되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         });
 
@@ -164,9 +222,46 @@ public class SharePostActivity extends Activity {
                                 sharePostVO = response.body();
                                 imageCnt = sharePostVO.getShare_post_img_cnt();
 
+                                calcTimer();
                                 UserVOGet(sharePostVO.getUser_id());
                                 ImageGet();
                                 settingUI();
+
+                                /** 반찬 나눔 종료 버튼 리스너 **/
+                                deletePostBtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(SharePostActivity.this);
+                                        builder.setTitle("반찬 나눔 종료").setMessage("반찬 나눔을 종료하시겠습니까?");
+                                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int id)
+                                            {
+                                                if(user_ID.equals(sharePostVO.getUser_id()))
+                                                {
+                                                    deletePost();
+                                                }
+                                                else
+                                                {
+                                                    Toast.makeText(SharePostActivity.this, "게시글 작성자가 아닙니다.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+
+                                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int id)
+                                            {
+
+                                            }
+                                        });
+
+
+                                        AlertDialog alertDialog = builder.create();
+                                        alertDialog.show();
+                                    }
+                                });
 
                             }
 
@@ -181,6 +276,34 @@ public class SharePostActivity extends Activity {
         });
 
         t.start();
+    }
+
+    /** Timer 연산 **/
+    public void calcTimer()
+    {
+        String timetmp = sharePostVO.getShare_time();
+        String[] strtmp =timetmp.split("T")[0].split("-");
+        String[] strtmp2 = timetmp.split("T")[1].split(":");
+        postDay = strtmp[2];
+        postHour = strtmp2[0];
+        postMin = strtmp2[1];
+
+        int checkday = Integer.parseInt(postDay) - Integer.parseInt(nowDay);
+        if(checkday==1)
+        {
+            shareTime += 86400000;
+        }
+
+        checkday = Integer.parseInt(postHour) - Integer.parseInt(nowHour);
+        shareTime += checkday * 3600000;
+
+        checkday = Integer.parseInt(postMin) - Integer.parseInt(nowMin);
+        shareTime += checkday * 60000;
+
+        timer = new Timer(shareTime, 60000);
+        timer.start();
+
+
     }
 
     /** 게시글 UI에 적용 **/
@@ -296,5 +419,50 @@ public class SharePostActivity extends Activity {
 
         setupIndicators(sharePostVO.getShare_post_img_cnt());
     }
+
+    /** 반찬 나눔 종료 **/
+    public void deletePost()
+    {
+        Call<SharePostVO> call = apiPostInterface.deletPost(sharePostVO);
+        call.enqueue(new Callback<SharePostVO>() {
+            @Override
+            public void onResponse(Call<SharePostVO> call, Response<SharePostVO> response) {
+                Toast.makeText(SharePostActivity.this, "나눔을 종료합니다.", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<SharePostVO> call, Throwable t) {
+                Log.d("fail reason", t.toString());
+                Toast.makeText(SharePostActivity.this, "나눔 게시물 삭제 실패\n네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+
+    /** Timer Class **/
+    class Timer extends CountDownTimer
+    {
+
+        //남은 시간 : 00시간 00분
+        String text = "남은 시간 :  ";
+
+        public Timer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long l) {
+            SharePostTimer.setText(text + l/3600000+"시간 " + (l%3600000)/60000 +"분");
+        }
+
+        @Override
+        public void onFinish() {
+            SharePostTimer.setText("나눔이 종료되었습니다.");
+            shareflag = true;
+        }
+    }
+
 
 }

@@ -67,6 +67,7 @@
         <activity android:name=".SharePostlocationActivity"/>
         <activity android:name=".SharePostIconActivity"/>
         <activity android:name=".SharePostActivity"/>
+        <activity android:name=".SharePostPutInForActivity"/>
 
     </application>
 
