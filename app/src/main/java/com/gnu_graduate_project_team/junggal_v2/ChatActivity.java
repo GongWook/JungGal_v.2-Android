@@ -211,13 +211,13 @@ public class ChatActivity extends Activity {
                 "\n" +
                 "-날씨가 궁금하신 장소와 날짜를 알려주시면\n" +
                 " 날씨를 알려드릴 수 있어요\n" +
-                "       ex) 내일 가좌동 날씨 어때?\n" +
+                "       ex) 내일 진주 날씨 어때?\n" +
                 "\n" +
                 "-미세먼지 정보도 가능해요\n" +
                 "       ex) 진주 오늘 미세먼지 어때?\n" +
                 "\n" +
                 "-주제에 따라 해당 지역의 장소를 추천해드려요\n" +
-                "       ex) 가좌동 사진관 추천해줘", "달걀이",  "오후 2:00", ViewType.LEFT_CHAT));
+                "       ex) 진주에 놀 만 한 관광지 알려줄래", "달걀이",  "오후 2:00", ViewType.LEFT_CHAT));
         dataList.add(new Item("고마워", null, "오후 2:01", ViewType.RIGHT_CHAT));
 
     }
