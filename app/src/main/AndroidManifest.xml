@@ -36,8 +36,7 @@
         android:theme="@style/Theme.JungGal_v2"
         android:usesCleartextTraffic="true"
 
-        android:appComponentFactory="whateverString"
-        tools:replace="android:appComponentFactory">
+        >
 
         <!-- 네이버 지도 -->
         <meta-data
@@ -67,6 +66,8 @@
         <activity android:name=".SharePostWriteActivity"/>
         <activity android:name=".SharePostlocationActivity"/>
         <activity android:name=".SharePostIconActivity"/>
+        <activity android:name=".SharePostActivity"/>
+        <activity android:name=".SharePostPutInForActivity"/>
 
     </application>
 

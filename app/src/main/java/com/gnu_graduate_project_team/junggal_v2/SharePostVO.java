@@ -30,17 +30,20 @@ public class SharePostVO {
     @SerializedName("share_people")
     private Integer share_people;
 
-    @SerializedName("share_time")
-    private Timestamp share_time;
-
     @SerializedName("share_story")
     private String share_story;
 
-    @SerializedName("post_time")
-    private Timestamp post_time;
-
     @SerializedName("shared_people")
     private Integer shared_people;
+
+    @SerializedName("share_time")
+    private String share_time;
+
+    @SerializedName("post_time")
+    private String post_time;
+
+    //파일 번호를 받기위함
+    private Integer imgNumber;
 
     public Integer getShare_post_id() {
         return share_post_id;
@@ -104,11 +107,11 @@ public class SharePostVO {
         this.share_people = share_people;
     }
 
-    public Timestamp getShare_time() {
+    public String getShare_time() {
         return share_time;
     }
 
-    public void setShare_time(Timestamp share_time) {
+    public void setShare_time(String share_time) {
         this.share_time = share_time;
     }
 
@@ -120,11 +123,11 @@ public class SharePostVO {
         this.share_story = share_story;
     }
 
-    public Timestamp getPost_time() {
+    public String getPost_time() {
         return post_time;
     }
 
-    public void setPost_time(Timestamp post_time) {
+    public void setPost_time(String post_time) {
         this.post_time = post_time;
     }
 
@@ -134,6 +137,14 @@ public class SharePostVO {
 
     public void setShared_people(Integer shared_people) {
         this.shared_people = shared_people;
+    }
+
+    public Integer getImgNumber() {
+        return imgNumber;
+    }
+
+    public void setImgNumber(Integer imgNumber) {
+        this.imgNumber = imgNumber;
     }
 
     @Override
