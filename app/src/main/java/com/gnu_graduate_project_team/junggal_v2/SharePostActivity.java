@@ -147,11 +147,17 @@ public class SharePostActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                if(shareflag==false)
+                if((sharePostVO.getShare_people() - sharePostVO.getShared_people()) == 0) {
+                    Toast.makeText(SharePostActivity.this, "나눔 신청이 종료되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+                else if(shareflag==false)
                 {
                     Intent putInForIntent = new Intent(SharePostActivity.this,SharePostPutInForActivity.class);
                     putInForIntent.putExtra("remainTime", SharePostTimer.getText().toString().trim());
                     putInForIntent.putExtra("remainPeople",sharePostsharePeople.getText().toString().trim());
+                    putInForIntent.putExtra("sharePostId",sharePostVO.getShare_post_id());
+                    putInForIntent.putExtra("sharePostName",sharePostVO.getShare_post_name());
+                    putInForIntent.putExtra("sharePostWriter",sharePostVO.getUser_id());
                     startActivity(putInForIntent);
                 }
                 else
@@ -355,7 +361,6 @@ public class SharePostActivity extends Activity {
                                     byte[] tmp = Base64.decode(userVO.getImagedata(),Base64.DEFAULT);
                                     Bitmap bittmp = BitmapFactory.decodeByteArray(tmp,0,tmp.length);
                                     SharePostWriterProfile.setImageBitmap(bittmp);
-
                                 }
 
 

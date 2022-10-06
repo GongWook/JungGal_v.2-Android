@@ -93,7 +93,6 @@ public class RegistPhoneAuthActivity extends Activity {
                             Intent intent = new Intent(RegistPhoneAuthActivity.this, RegistActivity.class);
                             intent.putExtra("user_phone_number",phone_num);
                             startActivity(intent);
-                            //Toast.makeText(RegistPhoneAuthActivity.this,"인증성공.",Toast.LENGTH_SHORT).show();
                         }
                         else
                         {

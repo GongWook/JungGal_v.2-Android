@@ -324,6 +324,7 @@ public class RegistActivity extends Activity {
         PreferenceManager.setBoolean(RegistActivity.this, "first_check_flag",true);
         PreferenceManager.setString(RegistActivity.this,"user_id", user_email);
         PreferenceManager.setString(RegistActivity.this,"user_pw",user_pw);
+        PreferenceManager.setString(RegistActivity.this,"user_name", user_name);
 
         MyApplication.user_data = uservo;
 

@@ -32,6 +32,7 @@ import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -40,6 +41,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class SharePostWriteActivity extends Activity {
+
+    /** 반찬 나눔 알람 **/
+    MyApplication myApplication;
 
     private ImageView dish_photo;
     private ImageView dish_image1;
@@ -90,9 +94,14 @@ public class SharePostWriteActivity extends Activity {
 
         setContentView(R.layout.share_post_write_ativity);
 
+
         /** 사용자 id 받아오기 **/
         String user_id = PreferenceManager.getString(SharePostWriteActivity.this,"user_id");
 
+        /** 반찬 나눔 알람 **/
+        myApplication = new MyApplication();
+
+        /** 스레드 사용 **/
         mHandler = new Handler();
 
         dish_photo = (ImageView) findViewById(R.id.dish_photo);
@@ -419,13 +428,10 @@ public class SharePostWriteActivity extends Activity {
                                             dish_imageArrayList.get(i).setImageBitmap(null);
                                         }
 
-
-
                                         for(int i=0; i<count; i++)
                                         {
                                             Glide.with(getApplicationContext()).load(imageListPath.get(i)).override(500,500).into(dish_imageArrayList.get(i));
                                         }
-
 
                                         imageCompressJpeg(count);
                                     }

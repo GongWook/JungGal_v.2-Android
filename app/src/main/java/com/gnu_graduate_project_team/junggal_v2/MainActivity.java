@@ -15,9 +15,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.naver.maps.geometry.LatLng;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
@@ -39,6 +41,12 @@ import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
+    /** 토큰 발급 관련 변수 **/
+    private Boolean TokenIssueFlag=false;
+
+    /** 사용자 ID값 변수 **/
+    private String userId;
+
     /** 사용자 위치 받아오는 변수 **/
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     private FusedLocationSource locationSource;
@@ -59,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     /** 레트로 핏 **/
     Retrofit retrofit = ApiClient.getApiClient();
     ApiPostMarkerInterface markerInterface = retrofit.create(ApiPostMarkerInterface.class);
+    ApiFcmInterface apiFcmInterface = retrofit.create(ApiFcmInterface.class);
 
     /** 데이터베이스 마커 정보 **/
     ArrayList<MarkerVO> markerVOArrayList;
@@ -66,7 +75,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     /** UI 마커 정보 **/
     ArrayList<Marker> markerArrayList = new ArrayList<>();
 
+    /** xml 관련 변수 **/
     private ImageView share_icon;
+    private ImageView alarmBtn;
 
     @Override
     protected void onResume() {
@@ -90,7 +101,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         /** 네이버 지도 api 호출 **/
         mapFragment.getMapAsync(this);
 
+
+        /** xml 관련 변수 초기화 **/
         share_icon = (ImageView) findViewById(R.id.food_share);
+        alarmBtn = (ImageView) findViewById(R.id.alarmBtn);
 
 
         /** 음식 나눔 클릭 이벤트 **/
@@ -98,6 +112,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SharePostWriteActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        /** 알람 아이콘 클릭 이벤트 **/
+        alarmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
                 startActivity(intent);
             }
         });
@@ -110,7 +133,51 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent fcm = new Intent(getApplicationContext(), MyFirebaseMessagingService.class);
+        startService(fcm);
 
+        TokenIssueFlag = PreferenceManager.getBoolean(MainActivity.this,"TokenIssueFlag");
+        userId = PreferenceManager.getString(MainActivity.this,"user_id");
+
+        /** FCM 토큰값 발행 성공 리스너 **/
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(new OnSuccessListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+
+                Log.d("Token :", s+"");
+
+                if(!TokenIssueFlag)
+                {
+
+                    Log.d("Token : ", s+"");
+                    //서버에 userID와 Token값 전송
+                    FcmTokenVO token = new FcmTokenVO(s,userId);
+                    Call<FcmTokenVO> call = apiFcmInterface.tokenRegist(token);
+                    call.enqueue(new Callback<FcmTokenVO>() {
+                        @Override
+                        public void onResponse(Call<FcmTokenVO> call, Response<FcmTokenVO> response) {
+                            FcmTokenVO checkToken = response.body();
+                            if(checkToken.getUser_id().equals("null"))
+                            {
+                                Toast.makeText(MainActivity.this, "어플을 껐다가 다시켜주세요.", Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                //서버에 Token값 저장 성공 시 전역 변수에 데이터 저장
+                                PreferenceManager.setBoolean(MainActivity.this,"TokenIssueFlag",true);
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<FcmTokenVO> call, Throwable t) {
+                            Toast.makeText(MainActivity.this, "인터넷 연결을 확인해 주세요.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
 
         mHandler = new Handler();
 
@@ -142,9 +209,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         /** 네이버 지도 api 호출 **/
         mapFragment.getMapAsync(this);
 
+        /** xml 관련 변수 초기화 **/
         share_icon = (ImageView) findViewById(R.id.food_share);
-
-
+        alarmBtn = (ImageView) findViewById(R.id.alarmBtn);
 
 
         /** 음식 나눔 클릭 이벤트 **/
@@ -152,6 +219,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SharePostWriteActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        /** 알람 아이콘 클릭 이벤트 **/
+        alarmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
                 startActivity(intent);
             }
         });
@@ -288,8 +364,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(MainActivity.this, "인터넷 연결을 확인해 주세요.", Toast.LENGTH_SHORT).show();
             }
         });
-
-
 
     }
 

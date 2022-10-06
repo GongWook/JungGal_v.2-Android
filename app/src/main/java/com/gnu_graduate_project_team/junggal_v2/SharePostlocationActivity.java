@@ -151,9 +151,6 @@ public class SharePostlocationActivity extends AppCompatActivity implements OnMa
             {
                 marker.setMap(null);
             }
-            
-            //위치 파악을 위한 toast 메시지 tmp
-            //Toast.makeText(this,latLng.latitude+", " + latLng.longitude, Toast.LENGTH_SHORT).show();
 
             marker.setPosition(latLng);
             marker.setMap(naverMap);
