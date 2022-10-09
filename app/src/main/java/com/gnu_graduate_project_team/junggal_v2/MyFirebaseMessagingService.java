@@ -45,10 +45,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        //수신한 메시지 처리
-        showNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
-
-        Log.d("message : ", remoteMessage.getNotification().getTitle()+", "+remoteMessage.getNotification().getBody());
+        //수신한 메시지 처리 ( 주석 처리 -> BroadCast 메세지 )
+        if(remoteMessage.getNotification() != null){
+            showNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
+            Intent intent = new Intent();
+            intent.setAction("com.gnu_graduate_project_team.junggal_v2");
+            sendBroadcast(intent);
+        }
+        else
+        {
+            Log.d("FCM error", "getNotification NULL");
+        }
 
     }
 

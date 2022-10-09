@@ -8,12 +8,13 @@
     android:background="@color/white">
 
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:orientation="horizontal"
         android:layout_marginTop="4dp"
         android:padding="13dp">
+
 
         <ImageView
             android:id="@+id/imageView2"
@@ -26,21 +27,37 @@
             android:id="@+id/imageView3"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="205dp"
+            android:layout_marginLeft="230dp"
             android:src="@drawable/search" />
 
         <ImageView
             android:id="@+id/imageView6"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="280dp"
             android:src="@drawable/menu" />
 
         <ImageView
             android:id="@+id/alarmBtn"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="330dp"
             android:src="@drawable/bell" />
-    </LinearLayout>
+
+        <TextView
+            android:id="@+id/alarmText"
+            android:layout_width="30dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="340dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/namugodicl"
+            android:gravity="center"
+            android:background="@drawable/button_round"
+            android:backgroundTint="#FF3300"
+            android:textColor="@color/white"
+            android:text="1개"
+            android:visibility="invisible"/>
+    </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"

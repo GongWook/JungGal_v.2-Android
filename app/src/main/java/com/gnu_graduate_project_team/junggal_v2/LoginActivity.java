@@ -68,6 +68,7 @@ public class LoginActivity extends Activity {
                             PreferenceManager.setString(LoginActivity.this,"user_id", get_user_info.getId());
                             PreferenceManager.setString(LoginActivity.this,"user_pw", get_user_info.getPw());
                             PreferenceManager.setString(LoginActivity.this,"user_name", get_user_info.getName());
+                            MyGlobals.getInstance().setAlarmCnt(0);
                             Log.d("로그인 성공",get_user_info.getId().toString());
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);

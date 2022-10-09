@@ -53,4 +53,17 @@ public interface ApiInterface {
     @POST("user/authPass")
     Call<PhoneVO> phone_auth_pass(@Body PhoneVO phone);
 
+    /** 알람 갯수 조회 **/
+    @POST("user/alarmCntSelect")
+    Call<UserVO> postWriterSelectAlarm(@Body UserVO user);
+
+    /** request 알람 갯수 초기화 **/
+    @POST("user/requestAlarmInit")
+    Call<UserVO> postWriterInitAlarm(@Body UserVO user);
+
+    /** request 알람 갯수 초기화 **/
+    @POST("user/responseAlarmInit")
+    Call<UserVO> responseAlarmInit(@Body UserVO user);
+
+
 }

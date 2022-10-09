@@ -7,12 +7,16 @@ import androidx.annotation.UiThread;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,6 +35,7 @@ import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.FusedLocationSource;
 
+import java.nio.channels.InterruptedByTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +49,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     /** 토큰 발급 관련 변수 **/
     private Boolean TokenIssueFlag=false;
 
+    /** 알람 BroadCastRecevier **/
+    private BroadcastReceiver receiver;
+
     /** 사용자 ID값 변수 **/
     private String userId;
+    private UserVO user;
 
     /** 사용자 위치 받아오는 변수 **/
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
@@ -68,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     Retrofit retrofit = ApiClient.getApiClient();
     ApiPostMarkerInterface markerInterface = retrofit.create(ApiPostMarkerInterface.class);
     ApiFcmInterface apiFcmInterface = retrofit.create(ApiFcmInterface.class);
+    ApiInterface apiInterface = retrofit.create(ApiInterface.class);
 
     /** 데이터베이스 마커 정보 **/
     ArrayList<MarkerVO> markerVOArrayList;
@@ -78,55 +88,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     /** xml 관련 변수 **/
     private ImageView share_icon;
     private ImageView alarmBtn;
+    private TextView alarmText;
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        mHandler = new Handler();
-
-        /** 사용자 위치  **/
-        locationSource =
-                new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
-
-
-        /** 네이버 지도 xml과 연동  **/
-        FragmentManager fm = getSupportFragmentManager();
-        MapFragment mapFragment = (MapFragment) fm.findFragmentById(R.id.map);
-        if (mapFragment == null) {
-            mapFragment = MapFragment.newInstance();
-            fm.beginTransaction().add(R.id.map, mapFragment).commit();
-        }
-
-        /** 네이버 지도 api 호출 **/
-        mapFragment.getMapAsync(this);
-
-
-        /** xml 관련 변수 초기화 **/
-        share_icon = (ImageView) findViewById(R.id.food_share);
-        alarmBtn = (ImageView) findViewById(R.id.alarmBtn);
-
-
-        /** 음식 나눔 클릭 이벤트 **/
-        share_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SharePostWriteActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        /** 알람 아이콘 클릭 이벤트 **/
-        alarmBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        Log.d("resum_test", "success");
-    }
+    /** 알람 총 갯수 **/
+    private Integer alarmCnt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +103,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         TokenIssueFlag = PreferenceManager.getBoolean(MainActivity.this,"TokenIssueFlag");
         userId = PreferenceManager.getString(MainActivity.this,"user_id");
+
+        /** xml 관련 변수 초기화 **/
+        share_icon = (ImageView) findViewById(R.id.food_share);
+        alarmBtn = (ImageView) findViewById(R.id.alarmBtn);
+        alarmText = (TextView) findViewById(R.id.alarmText);
+
+        /** 알람 BroadCastRecevier **/
+
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(intent.getAction().equals("com.gnu_graduate_project_team.junggal_v2"))
+                {
+                    onResume();
+                }
+            }
+        };
+
 
         /** FCM 토큰값 발행 성공 리스너 **/
         FirebaseMessaging.getInstance().getToken().addOnSuccessListener(new OnSuccessListener<String>() {
@@ -209,9 +192,63 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         /** 네이버 지도 api 호출 **/
         mapFragment.getMapAsync(this);
 
+        /** 음식 나눔 클릭 이벤트 **/
+        share_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SharePostWriteActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        /** 알람 아이콘 클릭 이벤트 **/
+        alarmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyGlobals.getInstance().setAlarmCnt(0);
+                alarmText.setVisibility(View.INVISIBLE);
+                Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        /** Alarm Cnt 초기화 **/
+        alarmCnt=0;
+
+        /** Thread 사용 Handler **/
+        mHandler = new Handler();
+
+        /** BroadCast 받기 **/
+         IntentFilter intentFilter = new IntentFilter("com.gnu_graduate_project_team.junggal_v2");
+         this.registerReceiver(receiver, intentFilter);
+
+        /** 사용자 위치  **/
+        locationSource =
+                new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
+
+
+        /** 네이버 지도 xml과 연동  **/
+        FragmentManager fm = getSupportFragmentManager();
+        MapFragment mapFragment = (MapFragment) fm.findFragmentById(R.id.map);
+        if (mapFragment == null) {
+            mapFragment = MapFragment.newInstance();
+            fm.beginTransaction().add(R.id.map, mapFragment).commit();
+        }
+
+        /** 네이버 지도 api 호출 **/
+        mapFragment.getMapAsync(this);
+
+
         /** xml 관련 변수 초기화 **/
         share_icon = (ImageView) findViewById(R.id.food_share);
         alarmBtn = (ImageView) findViewById(R.id.alarmBtn);
+        alarmText = (TextView) findViewById(R.id.alarmText);
 
 
         /** 음식 나눔 클릭 이벤트 **/
@@ -227,11 +264,68 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         alarmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                alarmText.setVisibility(View.INVISIBLE);
                 Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
                 startActivity(intent);
             }
         });
 
+        /** 알람 갯수 조회 **/
+        user = new UserVO();
+        user.setId(userId);
+        Call<UserVO> call = apiInterface.postWriterSelectAlarm(user);
+
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        call.enqueue(new Callback<UserVO>() {
+                            @Override
+                            public void onResponse(Call<UserVO> call, Response<UserVO> response) {
+                                user = response.body();
+
+                                alarmCnt += user.getResponseAlarmCnt();
+                                alarmCnt += user.getRequestAlarmCnt();
+
+                                if(alarmCnt!=0)
+                                {
+                                    String alarmString = alarmCnt+"개";
+                                    alarmText.setVisibility(View.VISIBLE);
+                                    alarmText.setText(alarmString);
+                                }
+                                else
+                                {
+                                    alarmText.setVisibility(View.INVISIBLE);
+                                }
+                                Log.d("noti count test ", "success");
+                            }
+
+                            @Override
+                            public void onFailure(Call<UserVO> call, Throwable t) {
+                                Log.d("noti count test ", t.toString());
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        t.start();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if(receiver !=null)
+        {
+            unregisterReceiver(receiver);
+        }
     }
 
     /** 사용자 위치  **/
@@ -468,8 +562,5 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         markerArrayList = new ArrayList<>();
     }
-
-
-
 
 }

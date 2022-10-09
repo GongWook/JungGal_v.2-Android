@@ -32,6 +32,12 @@ public class UserVO {
     @SerializedName("imagedata")
     private String imagedata;
 
+    @SerializedName("responseAlarmCnt")
+    private int responseAlarmCnt;
+
+    @SerializedName("requestAlarmCnt")
+    private int requestAlarmCnt;
+
     public String getId() {
         return id;
     }
@@ -102,6 +108,22 @@ public class UserVO {
 
     public void setImagedata(String imagedata) {
         this.imagedata = imagedata;
+    }
+
+    public int getResponseAlarmCnt() {
+        return responseAlarmCnt;
+    }
+
+    public void setResponseAlarmCnt(int responseAlarmCnt) {
+        this.responseAlarmCnt = responseAlarmCnt;
+    }
+
+    public int getRequestAlarmCnt() {
+        return requestAlarmCnt;
+    }
+
+    public void setRequestAlarmCnt(int requestAlarmCnt) {
+        this.requestAlarmCnt = requestAlarmCnt;
     }
 
     @Override
