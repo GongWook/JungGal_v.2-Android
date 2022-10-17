@@ -92,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     /** 알람 총 갯수 **/
     private Integer alarmCnt;
+    private Integer requestCnt;
+    private Integer responseCnt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 MyGlobals.getInstance().setAlarmCnt(0);
                 alarmText.setVisibility(View.INVISIBLE);
                 Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
+                intent.putExtra("requestCnt", requestCnt);
                 startActivity(intent);
             }
         });
@@ -267,6 +270,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 alarmText.setVisibility(View.INVISIBLE);
                 Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
+                intent.putExtra("requestCnt", requestCnt);
                 startActivity(intent);
             }
         });
@@ -288,8 +292,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             public void onResponse(Call<UserVO> call, Response<UserVO> response) {
                                 user = response.body();
 
-                                alarmCnt += user.getResponseAlarmCnt();
-                                alarmCnt += user.getRequestAlarmCnt();
+                                requestCnt = user.getRequestAlarmCnt();
+                                responseCnt = user.getResponseAlarmCnt();
+                                alarmCnt += requestCnt + responseCnt;
 
                                 if(alarmCnt!=0)
                                 {

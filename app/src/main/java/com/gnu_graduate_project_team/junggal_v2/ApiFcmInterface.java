@@ -24,9 +24,17 @@ public interface ApiFcmInterface {
     @POST("fcm/requestAlarmAccept")
     Call<AlarmVO> requestAlarmAccept(@Body AlarmVO alarmVO);
 
+    /** request Alarm Deny **/
+    @POST("fcm/requestAlarmDeny")
+    Call<AlarmVO> requestAlarmDeny(@Body AlarmVO alarmVO);
+
     /** response Alarm 조회 **/
     @POST("fcm/responseAlarmSelect")
     Call<List<AlarmVO>> responseAlarmSelect(@Body UserVO user);
+
+    /** Alarm Delete **/
+    @POST("fcm/delete_alarm")
+    Call<AlarmVO> delete_alarm(@Body AlarmVO alarmVO);
 
 
 

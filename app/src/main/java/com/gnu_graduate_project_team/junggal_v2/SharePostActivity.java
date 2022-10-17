@@ -82,7 +82,7 @@ public class SharePostActivity extends Activity {
     private Integer imageCnt;
     private SharePostImageVO imagedata;
 
-    /** 게시물 삭제 관련 변수 **/
+    /** 게시물 삭제 관련 변수 / 게시물 작성자 신청 방지 --> 사용자 계정 **/
     private String user_ID;
 
     @Override
@@ -147,24 +147,30 @@ public class SharePostActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                if((sharePostVO.getShare_people() - sharePostVO.getShared_people()) == 0) {
-                    Toast.makeText(SharePostActivity.this, "나눔 신청이 종료되었습니다.", Toast.LENGTH_SHORT).show();
-                }
-                else if(shareflag==false)
+                if(user_ID.equals(sharePostVO.getUser_id()))
                 {
-                    Intent putInForIntent = new Intent(SharePostActivity.this,SharePostPutInForActivity.class);
-                    putInForIntent.putExtra("remainTime", SharePostTimer.getText().toString().trim());
-                    putInForIntent.putExtra("remainPeople",sharePostsharePeople.getText().toString().trim());
-                    putInForIntent.putExtra("sharePostId",sharePostVO.getShare_post_id());
-                    putInForIntent.putExtra("sharePostName",sharePostVO.getShare_post_name());
-                    putInForIntent.putExtra("sharePostWriter",sharePostVO.getUser_id());
-                    startActivity(putInForIntent);
+                    Toast.makeText(SharePostActivity.this, "작성자는 나눔 신청이 불가능 합니다.", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    Toast.makeText(SharePostActivity.this, "나눔이 종료되었습니다.", Toast.LENGTH_SHORT).show();
+                    if((sharePostVO.getShare_people() - sharePostVO.getShared_people()) == 0) {
+                        Toast.makeText(SharePostActivity.this, "나눔 신청이 종료되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(shareflag==false)
+                    {
+                        Intent putInForIntent = new Intent(SharePostActivity.this,SharePostPutInForActivity.class);
+                        putInForIntent.putExtra("remainTime", SharePostTimer.getText().toString().trim());
+                        putInForIntent.putExtra("remainPeople",sharePostsharePeople.getText().toString().trim());
+                        putInForIntent.putExtra("sharePostId",sharePostVO.getShare_post_id());
+                        putInForIntent.putExtra("sharePostName",sharePostVO.getShare_post_name());
+                        putInForIntent.putExtra("sharePostWriter",sharePostVO.getUser_id());
+                        startActivity(putInForIntent);
+                    }
+                    else
+                    {
+                        Toast.makeText(SharePostActivity.this, "나눔이 종료되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
                 }
-
 
             }
         });
@@ -319,13 +325,13 @@ public class SharePostActivity extends Activity {
         sharePostStory.setText(sharePostVO.getShare_story());
         //나눔 가능 인원 수 : 00명
         String ment = "나눔 가능 인원 수 : ";
-        if(sharePostVO.getShare_people()<10)
+        if(sharePostVO.getShare_people()-sharePostVO.getShared_people()<10)
         {
-            ment += (sharePostVO.getShare_people() - sharePostVO.getShared_people());
+            ment += "0"+(sharePostVO.getShare_people() - sharePostVO.getShared_people());
         }
         else
         {
-            ment += "0" + (sharePostVO.getShare_people() - sharePostVO.getShared_people());
+            ment += (sharePostVO.getShare_people() - sharePostVO.getShared_people());
         }
         sharePostsharePeople.setText(ment);
         //0 / 2

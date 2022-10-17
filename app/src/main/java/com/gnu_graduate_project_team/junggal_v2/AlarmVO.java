@@ -14,6 +14,9 @@ public class AlarmVO {
     @SerializedName("alarmId")
     private Integer alarmId;
 
+    @SerializedName("sharePostId")
+    private Integer sharePostId;
+
     @SerializedName("postName")
     private String postName;
 
@@ -54,6 +57,12 @@ public class AlarmVO {
     }
     public void setAlarmId(Integer alarmId) {
         this.alarmId = alarmId;
+    }
+    public Integer getSharePostId() {
+        return sharePostId;
+    }
+    public void setSharePostId(Integer sharePostId) {
+        this.sharePostId = sharePostId;
     }
     public String getPostName() {
         return postName;

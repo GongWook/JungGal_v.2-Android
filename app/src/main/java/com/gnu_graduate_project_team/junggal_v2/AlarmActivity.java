@@ -1,11 +1,13 @@
 package com.gnu_graduate_project_team.junggal_v2;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -27,6 +29,7 @@ public class AlarmActivity extends Activity {
     Handler mHandler = new Handler();
 
     private ImageView backBtn;
+    private TextView requestAlarmCnt;
     private RecyclerView recyclerView;
     private List<AlarmItem> items = new ArrayList<>();
     private UserVO user= new UserVO();
@@ -34,6 +37,9 @@ public class AlarmActivity extends Activity {
     private ToggleSwitch alarmToogleSwitch;
 
     private Boolean toogleFlag = false;
+
+    /** request Alarm 갯수 **/
+    public Integer requestCnt=0;
 
     /** Retrofit **/
     Retrofit retrofit = ApiClient.getApiClient();
@@ -48,10 +54,18 @@ public class AlarmActivity extends Activity {
 
         user.setId(PreferenceManager.getString(AlarmActivity.this,"user_id"));
 
+        /** request 알람 갯수 받기 **/
+        Intent intent = getIntent();
+        requestCnt = intent.getIntExtra("requestCnt",0);
+
+        /** request UI Setting **/
+        AlarmUIsetting(requestCnt);
+
         /** xml 변수 초기화 **/
         backBtn = (ImageView) findViewById(R.id.AlarmBackBtn);
         recyclerView = (RecyclerView) findViewById(R.id.AlarmRecyclerView);
         alarmToogleSwitch = (ToggleSwitch) findViewById(R.id.alarmToogleSwitch);
+        requestAlarmCnt = (TextView) findViewById(R.id.requestAlarmCnt);
 
         /** recyclerView 등록 **/
         AlarmAdapter alarmAdapter = new AlarmAdapter(items);
@@ -65,6 +79,19 @@ public class AlarmActivity extends Activity {
                 onResume();
             }
         });
+
+        /** alarmAdapter onItemClickMove Listener **/
+        alarmAdapter.setOnItemClickMoveListner(new AlarmAdapter.OnItemClickMoveListner() {
+            @Override
+            public void onItemClick(int pos) {
+
+                Intent intent = new Intent(AlarmActivity.this, SharePostActivity.class);
+                intent.putExtra("sharePostID", alarmList.get(pos).getSharePostId());
+                startActivity(intent);
+
+            }
+        });
+
 
         recyclerView.setAdapter(alarmAdapter);
         recyclerView.setLayoutManager(manager);
@@ -92,6 +119,7 @@ public class AlarmActivity extends Activity {
                 }
                 else
                 {
+                    requestCnt=0;
                     toogleFlag = true;
                     onResume();
                 }
@@ -107,6 +135,9 @@ public class AlarmActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
+        /** request UI Setting **/
+        AlarmUIsetting(requestCnt);
+
         if(!toogleFlag)
         {
             responseAlarmSelect();
@@ -115,6 +146,7 @@ public class AlarmActivity extends Activity {
         }
         else
         {
+            /** request UI Setting **/
             requestAlarmSelect();
             /** request Alarm Init 함수 호출 **/
             postWriter_initAlarm();
@@ -254,6 +286,36 @@ public class AlarmActivity extends Activity {
                                 Toast.makeText(AlarmActivity.this, "네트워크 상태를 확인해 주세요.", Toast.LENGTH_SHORT).show();
                             }
                         });
+
+                    }
+                });
+            }
+        });
+
+        t.start();
+    }
+
+    public void AlarmUIsetting(int count)
+    {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        if(count==0)
+                        {
+                            requestCnt=0;
+                            requestAlarmCnt.setVisibility(View.INVISIBLE);
+                        }
+                        else
+                        {
+                            String alarmString = requestCnt+"개";
+                            requestAlarmCnt.setVisibility(View.VISIBLE);
+                            requestAlarmCnt.setText(alarmString);
+                        }
+
 
                     }
                 });

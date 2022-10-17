@@ -17,6 +17,15 @@
         app:layout_constraintTop_toTopOf="parent"
         >
 
+        <TextView
+            android:id="@+id/alarm_delete2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/namugodicl"
+            android:text="X"
+            android:textSize="12dp"
+            android:gravity="right"/>
+
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -36,7 +45,7 @@
                     android:layout_height="50dp"
                     android:layout_marginTop="5dp"
                     android:padding="5dp"
-                    android:src="@drawable/response_alarm_user_custom" />
+                    android:src="@drawable/check_mark_custom" />
 
             </LinearLayout>
 

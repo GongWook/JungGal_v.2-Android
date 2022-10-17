@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -41,6 +43,21 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.onItemClickListener = listener;
         Log.d("create onItem listener","make success");
     }
+
+    /** Custom Click Listener 2 -> sharePost 이동 Listener **/
+    public interface OnItemClickMoveListner
+    {
+        void onItemClick(int pos);
+    }
+
+    static private OnItemClickMoveListner OnItemClickMoveListner = null;
+
+    public void setOnItemClickMoveListner(OnItemClickMoveListner listener)
+    {
+        this.OnItemClickMoveListner = listener;
+        Log.d("create Move listener","make success");
+    }
+
 
     /** 화면 설정 **/
     @Override
@@ -109,6 +126,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         /** 알람 리스너 등록 **/
 
+        private TextView title;
         private TextView message;
         private TextView time;
         private Button acceptBtn;
@@ -118,24 +136,11 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public acceptAlarm(View itemView) {
             super(itemView);
 
+            title = itemView.findViewById(R.id.AcceptAlarmTitle);
             message = itemView.findViewById(R.id.AcceptAlarmMessage);
             time = itemView.findViewById(R.id.AcceptAlarmTime);
             acceptBtn = itemView.findViewById(R.id.AlarmAcceptBtn);
             denyBtn = itemView.findViewById(R.id.AlarmDenyBtn);
-
-            message.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION)
-                    {
-                        if(onItemClickListener!=null)
-                        {
-                            onItemClickListener.onItemClick(position);
-                        }
-                    }
-                }
-            });
 
             acceptBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -166,7 +171,55 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             denyBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d("denyBtn test","success");
+
+                    Call<AlarmVO> call = apiFcmInterface.requestAlarmDeny(alarmVO);
+                    call.enqueue(new Callback<AlarmVO>() {
+                        @Override
+                        public void onResponse(Call<AlarmVO> call, Response<AlarmVO> response) {
+                            int position = getAdapterPosition();
+                            if(position != RecyclerView.NO_POSITION)
+                            {
+                                if(onItemClickListener!=null)
+                                {
+                                    onItemClickListener.onItemClick(position);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<AlarmVO> call, Throwable t) {
+                            Log.d("deny request test","failed");
+                        }
+                    });
+
+                }
+            });
+
+            title.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if(position!=RecyclerView.NO_POSITION)
+                    {
+                        if(OnItemClickMoveListner!=null)
+                        {
+                            OnItemClickMoveListner.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            message.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if(position!=RecyclerView.NO_POSITION)
+                    {
+                        if(OnItemClickMoveListner!=null)
+                        {
+                            OnItemClickMoveListner.onItemClick(position);
+                        }
+                    }
                 }
             });
 
@@ -187,10 +240,15 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public class Alarm extends RecyclerView.ViewHolder
     {
 
+        /** 레트로 핏 **/
+        Retrofit retrofit = ApiClient.getApiClient();
+        ApiFcmInterface apiFcmInterface = retrofit.create(ApiFcmInterface.class);
+
         private TextView title;
         private TextView message;
         private TextView time;
         private AlarmVO alarmVO;
+        private TextView alarmDelete;
 
         public Alarm(View itemView) {
             super(itemView);
@@ -198,6 +256,62 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             title = itemView.findViewById(R.id.requestAlarmTitle);
             message = itemView.findViewById(R.id.requestAlarmMessage);
             time = itemView.findViewById(R.id.requestAlarmTime);
+            alarmDelete = itemView.findViewById(R.id.alarm_delete1);
+
+            alarmDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Call<AlarmVO> call = apiFcmInterface.delete_alarm(alarmVO);
+                    call.enqueue(new Callback<AlarmVO>() {
+                        @Override
+                        public void onResponse(Call<AlarmVO> call, Response<AlarmVO> response) {
+                            int position = getAdapterPosition();
+                            if(position != RecyclerView.NO_POSITION)
+                            {
+                                if(onItemClickListener!=null)
+                                {
+                                    onItemClickListener.onItemClick(position);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<AlarmVO> call, Throwable t) {
+                            Log.d("Alarm Delete","failed");
+                        }
+                    });
+
+                }
+            });
+
+            title.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if(position!=RecyclerView.NO_POSITION)
+                    {
+                        if(OnItemClickMoveListner!=null)
+                        {
+                            OnItemClickMoveListner.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            message.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if(position!=RecyclerView.NO_POSITION)
+                    {
+                        if(OnItemClickMoveListner!=null)
+                        {
+                            OnItemClickMoveListner.onItemClick(position);
+                        }
+                    }
+                }
+            });
 
         }
 
@@ -213,11 +327,16 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public class responseAlarm extends RecyclerView.ViewHolder
     {
 
+        /** 레트로 핏 **/
+        Retrofit retrofit = ApiClient.getApiClient();
+        ApiFcmInterface apiFcmInterface = retrofit.create(ApiFcmInterface.class);
+
         private TextView title;
         private TextView message;
         private TextView time;
         private ImageView postWriter;
         private AlarmVO alarmVO;
+        private TextView alarmDelete;
 
         public responseAlarm(View itemView) {
             super(itemView);
@@ -226,14 +345,81 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             title = itemView.findViewById(R.id.responseAlarmTitle);
             message = itemView.findViewById(R.id.responseAlarmMessage);
             time = itemView.findViewById(R.id.responseAlarmTime);
+            alarmDelete = itemView.findViewById(R.id.alarm_delete2);
+
+            alarmDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Call<AlarmVO> call = apiFcmInterface.delete_alarm(alarmVO);
+                    call.enqueue(new Callback<AlarmVO>() {
+                        @Override
+                        public void onResponse(Call<AlarmVO> call, Response<AlarmVO> response) {
+                            int position = getAdapterPosition();
+                            if(position != RecyclerView.NO_POSITION)
+                            {
+                                if(onItemClickListener!=null)
+                                {
+                                    onItemClickListener.onItemClick(position);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<AlarmVO> call, Throwable t) {
+                            Log.d("Alarm Delete","failed");
+                        }
+                    });
+
+                }
+            });
+
+            title.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if(position!=RecyclerView.NO_POSITION)
+                    {
+                        if(OnItemClickMoveListner!=null)
+                        {
+                            OnItemClickMoveListner.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            message.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if(position!=RecyclerView.NO_POSITION)
+                    {
+                        if(OnItemClickMoveListner!=null)
+                        {
+                            OnItemClickMoveListner.onItemClick(position);
+                        }
+                    }
+                }
+            });
 
         }
 
         public void setAlarmData(AlarmVO AlarmVO)
         {
             this.alarmVO = AlarmVO;
-            message.setText(AlarmVO.getMessage());
-            time.setText(AlarmVO.calcTime());
+            if(alarmVO.getAcceptFlag() == true)
+            {
+                message.setText(AlarmVO.getMessage());
+                time.setText(AlarmVO.calcTime());
+            }
+            else
+            {
+                title.setText("나눔 신청 실패");
+                postWriter.setImageResource(R.drawable.close_custom);
+                message.setText(AlarmVO.getMessage());
+                time.setText(AlarmVO.calcTime());
+            }
+
         }
     }
 

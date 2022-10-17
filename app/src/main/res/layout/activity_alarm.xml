@@ -20,6 +20,8 @@
         android:paddingTop="@dimen/space.medium"
         android:layout_marginTop="10dp">
 
+
+
         <ImageView
             android:id="@+id/AlarmBackBtn"
             android:layout_width="wrap_content"
@@ -41,7 +43,25 @@
             custom:separatorColor="@color/gray_very_light"
             custom:textToggleLeft="신청 내역"
             custom:textToggleRight="신청 수락"
-            custom:toggleWidth="100dp" />
+            custom:toggleWidth="100dp" >
+
+        </belka.us.androidtoggleswitch.widgets.ToggleSwitch>
+
+        <TextView
+            android:id="@+id/requestAlarmCnt"
+            android:layout_width="30dp"
+            android:layout_height="15dp"
+            android:fontFamily="@font/namugodicl"
+            android:gravity="center"
+            android:background="@drawable/button_round"
+            android:backgroundTint="#FF3300"
+            android:textColor="@color/white"
+            android:text="1개"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="7dp"
+            android:visibility="invisible"
+ />
+
     </LinearLayout>
 
 
