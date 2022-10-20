@@ -1,6 +1,5 @@
 package com.gnu_graduate_project_team.junggal_v2;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
 
@@ -35,7 +34,6 @@ import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.FusedLocationSource;
 
-import java.nio.channels.InterruptedByTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ImageView share_icon;
     private ImageView alarmBtn;
     private TextView alarmText;
+    private ImageView chatRoomBtn;
 
     /** 알람 총 갯수 **/
     private Integer alarmCnt;
@@ -110,15 +109,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         share_icon = (ImageView) findViewById(R.id.food_share);
         alarmBtn = (ImageView) findViewById(R.id.alarmBtn);
         alarmText = (TextView) findViewById(R.id.alarmText);
+        chatRoomBtn = (ImageView) findViewById(R.id.chatRoomBtn);
 
         /** 알람 BroadCastRecevier **/
 
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if(intent.getAction().equals("com.gnu_graduate_project_team.junggal_v2"))
+                if(intent.getAction().equals("com.gnu.alarm"))
                 {
                     onResume();
+                }
+                else
+                {
+                    //chat
                 }
             }
         };
@@ -171,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                Intent intent = new Intent(MainActivity.this, EggChatActivity.class);
                 intent.putExtra("userLatitude",userLocation.latitude);
                 intent.putExtra("userLongitude",userLocation.longitude);
                 startActivity(intent);
@@ -215,6 +219,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+        /** 채팅 룸 클릭 이벤트 **/
+        chatRoomBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ChatRoomListActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -228,8 +241,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mHandler = new Handler();
 
         /** BroadCast 받기 **/
-         IntentFilter intentFilter = new IntentFilter("com.gnu_graduate_project_team.junggal_v2");
-         this.registerReceiver(receiver, intentFilter);
+        IntentFilter intentFilter = new IntentFilter("com.gnu.alarm");
+        this.registerReceiver(receiver, intentFilter);
 
         /** 사용자 위치  **/
         locationSource =
@@ -506,7 +519,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     break;
 
             }
-            marker.setTag(m.getShare_post_name()+"_"+m.getShare_post_id());
+            marker.setTag(m.getShare_post_name()+"_"+m.getShare_post_id()+"_"+m.getLatitude()+"_"+m.getLongitude());
 
             /** infowoindow adapter 나중에 터질 수도 있을 우려가 있음 checking **/
             infoWindow.setAdapter(new InfoWindow.DefaultTextAdapter(getApplicationContext()) {
@@ -524,9 +537,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 @Override
                 public boolean onClick(@NonNull  Overlay overlay) {
                     String tmp = (String) infoWindow.getMarker().getTag();
-                    String[] postname = tmp.split("_");
+                    String[] postData = tmp.split("_");
                     Intent intent = new Intent(MainActivity.this, SharePostActivity.class);
-                    intent.putExtra("sharePostID", Integer.parseInt(postname[1]));
+                    intent.putExtra("sharePostID", Integer.parseInt(postData[1]));
+                    intent.putExtra("Latitude",postData[2]);
+                    intent.putExtra("Longitude",postData[3]);
                     startActivity(intent);
                     return true;
                 }

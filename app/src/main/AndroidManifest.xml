@@ -82,7 +82,7 @@
         <activity android:name=".RegistAgreeActivity"/>
         <activity android:name=".RegistPhoneAuthActivity"/>
         <activity android:name=".RegistActivity"/>
-        <activity android:name=".ChatActivity"/>
+        <activity android:name=".EggChatActivity"/>
         <activity android:name=".SharePostWriteActivity"/>
         <activity android:name=".SharePostlocationActivity"/>
         <activity android:name=".SharePostIconActivity"/>
@@ -91,6 +91,10 @@
         <activity android:name=".WebSocketActivity"/>
         <activity android:name=".StompWebSocketActivity"/>
         <activity android:name=".PopUpActivity" android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".NaverDirection5Activity"/>
+        <activity android:name=".ChatActivity"/>
+        <activity android:name=".ChatRoomListActivity"
+            android:windowSoftInputMode="adjustPan"/>
 
 
     </application>

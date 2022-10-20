@@ -1,94 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="@color/white">
 
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:orientation="horizontal"
+        android:layout_height="63dp"
         android:layout_marginTop="4dp"
+        android:orientation="horizontal"
         android:padding="13dp">
 
 
         <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="35dp"
-            android:layout_height="wrap_content"
+            android:id="@+id/chatRoomListBackBtn"
+            android:layout_width="28dp"
+            android:layout_height="32dp"
             android:layout_marginLeft="4dp"
-            android:src="@drawable/filter" />
+            android:src="@drawable/back_space_custom" />
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="230dp"
-            android:src="@drawable/search" />
+            android:layout_width="55dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="140dp"
+            android:src="@drawable/chat_custom" />
 
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="280dp"
-            android:src="@drawable/menu" />
 
-        <ImageView
-            android:id="@+id/alarmBtn"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="330dp"
-            android:src="@drawable/bell" />
+    </LinearLayout>
 
-        <TextView
-            android:id="@+id/alarmText"
-            android:layout_width="30dp"
-            android:layout_height="15dp"
-            android:layout_marginLeft="340dp"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/namugodicl"
-            android:gravity="center"
-            android:background="@drawable/button_round"
-            android:backgroundTint="#FF3300"
-            android:textColor="@color/white"
-            android:text="1개"
-            android:visibility="invisible"/>
-    </FrameLayout>
-
-    <FrameLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatRoomRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="569dp">
-
-        <fragment
-            android:id="@+id/map"
-            android:name="com.naver.maps.map.MapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="570dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-
-            />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:layout_gravity="bottom|right"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="20dp"
-            android:src="@drawable/ai_egg_chat"
-            app:tint="@null"
-            app:fabSize="auto"
-            app:maxImageSize="55dp"
-            android:backgroundTint="#FFFFFF"/>
+        android:layout_height="540dp"
+        android:layout_marginTop="10dp"
+        custom:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 
-    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -98,10 +50,10 @@
         android:padding="5dp">
 
         <ImageView
-            android:id="@+id/food_share"
+            android:id="@+id/chat_food_share_btn"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="27dp"
+            android:layout_marginLeft="25dp"
             android:src="@drawable/heart" />
 
         <ImageView
@@ -112,14 +64,14 @@
             android:src="@drawable/edit" />
 
         <ImageView
-            android:id="@+id/imageView10"
+            android:id="@+id/chat_home_btn"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="27dp"
             android:src="@drawable/home" />
 
         <ImageView
-            android:id="@+id/chatRoomBtn"
+            android:id="@+id/imageView11"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="27dp"

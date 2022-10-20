@@ -63,10 +63,9 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        //0==model1, 1==model2 2==model3
+        //0==model1, 1==model2, 2==model3
         if(viewType == 0)
         {
-
             return new acceptAlarm(LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.alarm_request_activity1,parent,false));
         }

@@ -17,6 +17,7 @@
         android:textColor="@color/black"
         android:textSize="12sp"
         android:fontFamily="@font/namugodicl"
+        android:layout_gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,7 +46,8 @@
         android:layout_marginLeft="5dp"
         android:text="00:00"
         android:textColor="#b9bcce"
-        android:textSize="10sp"
+        android:textSize="11sp"
+        android:layout_gravity="center"
         app:layout_constraintBottom_toBottomOf="@+id/content"
         app:layout_constraintStart_toEndOf="@+id/content" />
 

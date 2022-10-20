@@ -57,6 +57,9 @@ public class SharePostActivity extends Activity {
     private TextView deletePostBtn;
 
     private ImageView sharePostPutInForBtn;
+    private ImageView location_btn;
+
+    private ImageView postWriterChat;
 
     /** Timer **/
     private String postDay;
@@ -70,6 +73,13 @@ public class SharePostActivity extends Activity {
     private Timer timer;
     private Boolean shareflag = false;
 
+    /** Post ID **/
+    public Integer sharePostId;
+
+    /** Latitude Longitude **/
+    private String Latitude="";
+    private String Longitude="";
+    private Boolean geoFlag=false;
 
     /** Retrofit2 / ApiPostInterfae 호출 **/
     Retrofit retrofit = ApiClient.getApiClient();
@@ -113,18 +123,25 @@ public class SharePostActivity extends Activity {
         SharePostTimer = (TextView) findViewById(R.id.SharePostTimer);
         deletePostBtn = (TextView) findViewById(R.id.deletePostBtn);
         sharePostPutInForBtn = (ImageView) findViewById(R.id.sharePostPutInForBtn);
+        location_btn = (ImageView)findViewById(R.id.location_btn);
+        postWriterChat = (ImageView)findViewById(R.id.postWriterChat);
 
         /** Thread 사용 **/
         mHandler = new Handler();
 
         /** 반찬 PostId 값 받기 **/
         Intent intent = getIntent();
-        Integer sharePostId = intent.getIntExtra("sharePostID",0);
+        sharePostId = intent.getIntExtra("sharePostID",0);
         MarkerVO marker = new MarkerVO();
         marker.setShare_post_id(sharePostId);
 
         /** 게시물 load **/
         selectPost(marker);
+
+        /** 게시물 위치 값 받기 **/
+        Latitude = intent.getStringExtra("Latitude");
+        Longitude = intent.getStringExtra("Longitude");
+
 
         /** 반찬 이미지 ViewPager2 코드 **/
         slideView = findViewById(R.id.sliderViewPager);
@@ -170,6 +187,48 @@ public class SharePostActivity extends Activity {
                     {
                         Toast.makeText(SharePostActivity.this, "나눔이 종료되었습니다.", Toast.LENGTH_SHORT).show();
                     }
+                }
+
+            }
+        });
+
+        /** 나눔 위치 길 안내 버튼 리스너 **/
+        location_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(geoFlag)
+                {
+                    Intent intent = new Intent( SharePostActivity.this, NaverDirection5Activity.class);
+                    intent.putExtra("latitude",Double.parseDouble(Latitude));
+                    intent.putExtra("longitude",Double.parseDouble(Longitude));
+                    startActivity(intent);
+                }
+                else
+                {
+                    Toast.makeText(SharePostActivity.this, "게시물 로딩중 입니다. 다시 눌러주세요.", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        /** 게시물 작성자와 Chatting 하기 **/
+        postWriterChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(user_ID.equals(sharePostVO.getUser_id()))
+                {
+                    Toast.makeText(SharePostActivity.this, "본인과 채팅은 불가능 합니다.", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Intent chatIntent = new Intent(SharePostActivity.this, ChatActivity.class);
+                    chatIntent.putExtra("sharePostId",sharePostVO.getShare_post_id());
+                    chatIntent.putExtra("sharePostName",sharePostVO.getShare_post_name());
+                    chatIntent.putExtra("sharePostWriter",sharePostVO.getUser_id());
+                    chatIntent.putExtra("chatOpponent",userVO.getName());
+                    startActivity(chatIntent);
                 }
 
             }
@@ -232,48 +291,64 @@ public class SharePostActivity extends Activity {
                             @Override
                             public void onResponse(Call<SharePostVO> call, Response<SharePostVO> response) {
                                 sharePostVO = response.body();
-                                imageCnt = sharePostVO.getShare_post_img_cnt();
+                                if(sharePostVO.getShare_post_id()==null)
+                                {
+                                    Toast.makeText(SharePostActivity.this, "삭제된 게시물 입니다.", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                                else
+                                {
+                                    imageCnt = sharePostVO.getShare_post_img_cnt();
 
-                                calcTimer();
-                                UserVOGet(sharePostVO.getUser_id());
-                                ImageGet();
-                                settingUI();
-
-                                /** 반찬 나눔 종료 버튼 리스너 **/
-                                deletePostBtn.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(SharePostActivity.this);
-                                        builder.setTitle("반찬 나눔 종료").setMessage("반찬 나눔을 종료하시겠습니까?");
-                                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int id)
-                                            {
-                                                if(user_ID.equals(sharePostVO.getUser_id()))
-                                                {
-                                                    deletePost();
-                                                }
-                                                else
-                                                {
-                                                    Toast.makeText(SharePostActivity.this, "게시글 작성자가 아닙니다.", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
-
-                                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int id)
-                                            {
-
-                                            }
-                                        });
-
-
-                                        AlertDialog alertDialog = builder.create();
-                                        alertDialog.show();
+                                    calcTimer();
+                                    UserVOGet(sharePostVO.getUser_id());
+                                    ImageGet();
+                                    settingUI();
+                                    if(Latitude==null || Longitude==null)
+                                    {
+                                        selectGeoPoint();
                                     }
-                                });
+                                    else
+                                    {
+                                        geoFlag = true;
+                                    }
+
+                                    /** 반찬 나눔 종료 버튼 리스너 **/
+                                    deletePostBtn.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(SharePostActivity.this);
+                                            builder.setTitle("반찬 나눔 종료").setMessage("반찬 나눔을 종료하시겠습니까?");
+                                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int id)
+                                                {
+                                                    if(user_ID.equals(sharePostVO.getUser_id()))
+                                                    {
+                                                        deletePost();
+                                                    }
+                                                    else
+                                                    {
+                                                        Toast.makeText(SharePostActivity.this, "게시글 작성자가 아닙니다.", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+
+                                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int id)
+                                                {
+
+                                                }
+                                            });
+
+
+                                            AlertDialog alertDialog = builder.create();
+                                            alertDialog.show();
+                                        }
+                                    });
+                                }
 
                             }
 
@@ -451,6 +526,45 @@ public class SharePostActivity extends Activity {
 
     }
 
+    /** 게시물 좌표값 가져오기 **/
+    public void selectGeoPoint()
+    {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        SharePostVO tmpVo = new SharePostVO();
+                        tmpVo.setShare_post_id(sharePostId);
+                        Call<Point> call = apiPostInterface.selectGeoPoint(tmpVo);
+                        call.enqueue(new Callback<Point>() {
+                            @Override
+                            public void onResponse(Call<Point> call, Response<Point> response) {
+                                Point point = response.body();
+                                Latitude = point.getLatitude();
+                                Longitude = point.getLongitude();
+                                Log.d("Latitude", Latitude);
+                                Log.d("Longitude", Longitude);
+                                geoFlag = true;
+                            }
+
+                            @Override
+                            public void onFailure(Call<Point> call, Throwable t) {
+                                Toast.makeText(SharePostActivity.this, "네트워크 상태를 확인해 주세요.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+                    }
+
+                });
+            }
+        });
+
+        t.start();
+    }
 
     /** Timer Class **/
     class Timer extends CountDownTimer
@@ -474,6 +588,8 @@ public class SharePostActivity extends Activity {
             shareflag = true;
         }
     }
+
+
 
 
 }
