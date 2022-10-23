@@ -10,7 +10,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -62,6 +66,8 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private TextView chatRoomTime;
         private TextView chatRoomMessage;
         private ChatRoomVO chatRoomVO;
+        private CircleImageView chat_room_profile_image;
+        private TextView chatRoomReadCnt;
 
         public ChatRoomHolder(View itemView) {
             super(itemView);
@@ -69,6 +75,8 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             chatRoomTitle = itemView.findViewById(R.id.chatRoomTitle);
             chatRoomTime = itemView.findViewById(R.id.chatRoomTime);
             chatRoomMessage = itemView.findViewById(R.id.chatRoomMessage);
+            chat_room_profile_image = itemView.findViewById(R.id.chat_room_profile_image);
+            chatRoomReadCnt = itemView.findViewById(R.id.chatRoomReadCnt);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -91,13 +99,59 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if(chatRoom.getUser_id().equals(chatRoom.getOwner_id()))
             {
                 chatRoomTitle.setText(chatRoom.getClient_name());
+                if(chatRoom.getOwner_cnt()!=0)
+                {
+                    chatRoomReadCnt.setText(chatRoom.getOwner_cnt()+"개");
+                    chatRoomReadCnt.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    chatRoomReadCnt.setVisibility(View.INVISIBLE);
+                }
             }
             else
             {
                 chatRoomTitle.setText(chatRoom.getOwner_name());
+                if(chatRoom.getClient_cnt()!=0)
+                {
+                    chatRoomReadCnt.setText(chatRoom.getClient_cnt()+"개");
+                    chatRoomReadCnt.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    chatRoomReadCnt.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            if(chatRoom.getBitmapFlag())
+            {
+                chat_room_profile_image.setImageBitmap(chatRoom.getBitmap());
             }
             chatRoomMessage.setText(chatRoom.getShare_post_name());
+
             //time은 마지막 메세지 받아서 담아주기
+            chatRoomTime.setText(nowTime(chatRoom.getUse_time()));
+        }
+    }
+
+    /** 현재 시간 설정 함수 **/
+    public static String nowTime(String dbTime)
+    {
+        String tmp[] = dbTime.split("T");
+
+        long now = System.currentTimeMillis();
+        Date mDate = new Date(now);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd");
+        String Time = simpleDateFormat.format(mDate);
+
+        if(Time.equals(tmp[0]))
+        {
+            return tmp[1];
+        }
+        else
+        {
+            return Time;
         }
     }
 

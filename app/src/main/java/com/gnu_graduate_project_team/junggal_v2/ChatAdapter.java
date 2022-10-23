@@ -110,7 +110,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void setData(ChatVO chatVO)
         {
             this.chatVO = chatVO;
-            Log.d("chatvo test", chatVO.toString());
             name.setText(chatVO.getSender());
             time.setText(nowTime(chatVO.getChat_time()));
             content.setText(chatVO.getContent());

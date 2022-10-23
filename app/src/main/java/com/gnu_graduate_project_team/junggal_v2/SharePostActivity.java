@@ -94,13 +94,16 @@ public class SharePostActivity extends Activity {
 
     /** 게시물 삭제 관련 변수 / 게시물 작성자 신청 방지 --> 사용자 계정 **/
     private String user_ID;
+    private String user_Name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.share_post_activity);
 
+        //
         user_ID = PreferenceManager.getString(SharePostActivity.this,"user_id");
+        user_Name = PreferenceManager.getString(SharePostActivity.this,"user_name");
 
         //Timer
         Date today = new Date();
@@ -227,7 +230,9 @@ public class SharePostActivity extends Activity {
                     chatIntent.putExtra("sharePostId",sharePostVO.getShare_post_id());
                     chatIntent.putExtra("sharePostName",sharePostVO.getShare_post_name());
                     chatIntent.putExtra("sharePostWriter",sharePostVO.getUser_id());
-                    chatIntent.putExtra("chatOpponent",userVO.getName());
+                    chatIntent.putExtra("sharePostWriterName",userVO.getName());
+                    chatIntent.putExtra("client",user_ID);
+                    chatIntent.putExtra("clientName",user_Name);
                     startActivity(chatIntent);
                 }
 

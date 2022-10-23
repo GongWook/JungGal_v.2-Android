@@ -126,7 +126,7 @@
             android:src="@drawable/chat" />
 
         <ImageView
-            android:id="@+id/imageView12"
+            android:id="@+id/myPageBtn"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="27dp"

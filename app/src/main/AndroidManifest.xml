@@ -95,6 +95,10 @@
         <activity android:name=".ChatActivity"/>
         <activity android:name=".ChatRoomListActivity"
             android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".MyPageActivity"/>
+        <activity android:name=".MypageProfileUpdateActivity"/>
+        <activity android:name=".MypageSellerChoooseActivity"/>
+        <activity android:name=".MypageBusinessSellerRegistActivity"/>
 
 
     </application>

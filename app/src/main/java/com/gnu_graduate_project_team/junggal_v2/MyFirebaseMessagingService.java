@@ -109,7 +109,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         else
         {
             //팝업 터치시 이동할 액티비티를 지정한다.
-            Intent intent = new Intent(this, ChatActivity.class);
+            Intent intent = new Intent(this, ChatRoomListActivity.class);
 
             //알림 채널 아이디
             String channel_id ="JungGal";

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/sellerChooseBackBtn"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_weight="0.2"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/back_icon_custom" />
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="판매자 등록 페이지"
+            android:textColor="@color/black"
+            android:fontFamily="@font/namugodicl"
+            android:textSize="25dp"
+            android:gravity="center"
+            android:layout_marginRight="45dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="105dp"
+        android:layout_marginLeft="15dp">
+
+        <ImageView
+            android:id="@+id/imageView14"
+            android:layout_width="146dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ai_egg_chat" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp">
+
+            <TextView
+                android:id="@+id/textView29"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="판매자 등록 페이지 입니다."
+                android:fontFamily="@font/namugodicl"
+                android:textColor="@color/black"
+                android:textSize="17dp"/>
+
+            <TextView
+                android:id="@+id/textView31"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:lineHeight="23dp"
+                android:text="개인 판매자 / 사업자 판매자\n선택해 주세요."
+                android:fontFamily="@font/namugodicl"
+                android:textColor="@color/black"
+                android:textSize="17dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/individual_seller_btn"
+        android:layout_width="230dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="130dp"
+        android:layout_gravity="center"
+        android:text="개인 판매자"
+        android:textSize="17dp"
+        android:textColor="@color/white"
+        android:backgroundTint="#FFC000"
+        android:fontFamily="@font/namugodicl"
+        android:layout_marginBottom="20dp"/>
+
+
+    <Button
+        android:id="@+id/business_seller_btn"
+        android:layout_width="230dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="12dp"
+        android:layout_gravity="center"
+        android:text="사업자 판매자"
+        android:textSize="17dp"
+        android:textColor="@color/white"
+        android:backgroundTint="#FFC000"
+        android:fontFamily="@font/namugodicl"
+        android:layout_marginBottom="20dp"/>
+
+</LinearLayout>

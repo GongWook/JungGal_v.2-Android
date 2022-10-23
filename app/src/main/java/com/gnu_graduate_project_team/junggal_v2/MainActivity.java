@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.datatransport.runtime.firebase.transport.LogEventDropped;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.naver.maps.geometry.LatLng;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     /** 사용자 ID값 변수 **/
     private String userId;
     private UserVO user;
+    private UserVO userData;
 
     /** 사용자 위치 받아오는 변수 **/
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
@@ -88,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ImageView alarmBtn;
     private TextView alarmText;
     private ImageView chatRoomBtn;
+    private ImageView myPageBtn;
 
     /** 알람 총 갯수 **/
     private Integer alarmCnt;
@@ -110,9 +113,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         alarmBtn = (ImageView) findViewById(R.id.alarmBtn);
         alarmText = (TextView) findViewById(R.id.alarmText);
         chatRoomBtn = (ImageView) findViewById(R.id.chatRoomBtn);
+        myPageBtn = (ImageView) findViewById(R.id.myPageBtn);
 
+        /** Thread 관련 **/
+        mHandler = new Handler();
+        
         /** 알람 BroadCastRecevier **/
-
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -167,8 +173,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         });
-
-        mHandler = new Handler();
 
         /** 달걀이 채팅 버튼 **/
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
@@ -320,6 +324,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     alarmText.setVisibility(View.INVISIBLE);
                                 }
                                 Log.d("noti count test ", "success");
+
+                                /** 마이페이지 서비스 호출 이벤트 리스너 **/
+                                myPageBtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(MainActivity.this, MyPageActivity.class);
+                                        intent.putExtra("userData", user);
+                                        startActivity(intent);
+                                    }
+                                });
                             }
 
                             @Override
@@ -581,6 +595,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             m.setMap(null);
         }
         markerArrayList = new ArrayList<>();
+    }
+
+    /** 유저 정보 받아오기 **/
+    public void getUserData()
+    {
+
     }
 
 }

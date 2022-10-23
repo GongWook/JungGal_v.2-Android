@@ -1,9 +1,13 @@
 package com.gnu_graduate_project_team.junggal_v2;
 
+import android.graphics.Bitmap;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class UserVO {
+import java.io.Serializable;
+
+public class UserVO implements Serializable {
 
     @SerializedName("id")
     private String id;
@@ -37,6 +41,11 @@ public class UserVO {
 
     @SerializedName("requestAlarmCnt")
     private int requestAlarmCnt;
+
+    @SerializedName("real_name")
+    private String real_name;
+
+    private Boolean profile_change_flag;
 
     public String getId() {
         return id;
@@ -126,6 +135,22 @@ public class UserVO {
         this.requestAlarmCnt = requestAlarmCnt;
     }
 
+    public Boolean getProfile_change_flag() {
+        return profile_change_flag;
+    }
+
+    public void setProfile_change_flag(Boolean profile_change_flag) {
+        this.profile_change_flag = profile_change_flag;
+    }
+
+    public String getReal_name() {
+        return real_name;
+    }
+
+    public void setReal_name(String real_name) {
+        this.real_name = real_name;
+    }
+
     @Override
     public String toString() {
         return "UserVO{" +
@@ -137,6 +162,11 @@ public class UserVO {
                 ", share_point=" + share_point +
                 ", seller_auth=" + seller_auth +
                 ", profile_flag=" + profile_flag +
+                ", imagedata='" + imagedata + '\'' +
+                ", responseAlarmCnt=" + responseAlarmCnt +
+                ", requestAlarmCnt=" + requestAlarmCnt +
+                ", real_name='" + real_name + '\'' +
+                ", profile_change_flag=" + profile_change_flag +
                 '}';
     }
 }

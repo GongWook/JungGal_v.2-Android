@@ -28,5 +28,13 @@ public interface ApiChatInterface {
     @POST("chat/selectChatList")
     Call<List<ChatVO>> selectChatList(@Body ChatRoomVO chatRoomVO);
 
+    /** Onwer 채팅 Cnt 초기화 **/
+    @POST("chat/updateOwnerCntZero")
+    Call<ChatRoomVO> updateOwnerCntZero(@Body ChatRoomVO chatRoomVO);
+
+    /** Client 채팅 Cnt 초기화 **/
+    @POST("chat/updateClientCntZero")
+    Call<ChatRoomVO> updateClientCntZero(@Body ChatRoomVO chatRoomVO);
+
 
 }

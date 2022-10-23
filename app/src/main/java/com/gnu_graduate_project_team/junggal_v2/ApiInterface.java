@@ -65,5 +65,18 @@ public interface ApiInterface {
     @POST("user/responseAlarmInit")
     Call<UserVO> responseAlarmInit(@Body UserVO user);
 
+    /** userData 조회 **/
+    @POST("user/getUserData")
+    Call<UserVO> getUserData(@Body UserVO user);
+
+    /** user 프로필 수정 profile 사진 존재시 **/
+    @Multipart
+    @POST("user/updateUserProfile")
+    Call<UserVO> updateUserProfile(@PartMap Map<String, RequestBody> params, @Part MultipartBody.Part file);
+
+    /** user 프로필 수정 profile 사진 미존재시 **/
+    @Multipart
+    @POST("user/updateUserProfile")
+    Call<UserVO> updateUser_nonProfile(@PartMap Map<String, RequestBody> params);
 
 }

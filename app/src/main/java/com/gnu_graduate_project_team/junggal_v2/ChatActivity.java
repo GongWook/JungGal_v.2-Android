@@ -41,9 +41,13 @@ public class ChatActivity extends Activity {
     /** ChatRoom 관련 변수 **/
     private String userId;
     private String chatOpponent;
+    private String chatOpponentName;
     private Integer sharePostId;
     private String sharePostName;
     private String sharePostWriter;
+    private String sharePostWriterName;
+    private String client;
+    private String clientName;
     private ChatRoomVO chatRoom = new ChatRoomVO();
     public Boolean chatRoomSelectFlag = false;
 
@@ -89,13 +93,27 @@ public class ChatActivity extends Activity {
         sharePostId = intent.getIntExtra("sharePostId",0);
         sharePostName = intent.getStringExtra("sharePostName");
         sharePostWriter = intent.getStringExtra("sharePostWriter");
-        chatOpponent = intent.getStringExtra("chatOpponent");
+        sharePostWriterName = intent.getStringExtra("sharePostWriterName");
+        client = intent.getStringExtra("client");
+        clientName = intent.getStringExtra("clientName");
+
+        /** chatting 상대 설정 하기 **/
+        if(user_ID.equals(sharePostWriter))
+        {
+            chatOpponent = client;
+            chatOpponentName = clientName;
+        }
+        else
+        {
+            chatOpponent = sharePostWriter;
+            chatOpponentName = sharePostWriterName;
+        }
 
         /** Chat Room 설정 **/
         chatRoom.setShare_post_id(sharePostId);
         chatRoom.setShare_post_name(sharePostName);
         chatRoom.setOwner_id(sharePostWriter);
-        chatRoom.setOwner_name(chatOpponent);
+        chatRoom.setOwner_name(sharePostWriterName);
         chatRoom.setClient_id(userId);
         chatRoom.setClient_name(user_Name);
 
@@ -176,7 +194,7 @@ public class ChatActivity extends Activity {
                 String chat = egg_edit_text.getText().toString().trim();
                 ChatVO chatVO = new ChatVO();
                 chatVO.setChat_room_id(chatRoom.getChatRoom_id());
-                chatVO.setReader(chatRoom.getOwner_id());
+                chatVO.setReader(chatOpponent);
                 chatVO.setSender(userId);
                 chatVO.setContent(chat);
 
@@ -222,14 +240,17 @@ public class ChatActivity extends Activity {
     public Boolean selectChatRoom()
     {
         Call<ChatRoomVO> call = chatInterface.selectChatRoom(chatRoom);
+        Log.d("chatRoom state check", chatRoom.toString());
         call.enqueue(new Callback<ChatRoomVO>() {
             @Override
             public void onResponse(Call<ChatRoomVO> call, Response<ChatRoomVO> response) {
                 ChatRoomVO tmp = response.body();
+                Log.d("tmp check",tmp.toString());
                 Log.d("chatRoom_id",tmp.getChatRoom_id()+"");
+
                 if(tmp.getChatRoom_id()==null)
                 {
-                    /** 채팅 룸이 존재 하지 않을 때 채팅 전송 버튼 리스너 **/
+                    /** 채팅 룸이 존재 하지 않을 때 채팅 전송 버튼 리스너  **/
                     egg_send_text.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -245,7 +266,7 @@ public class ChatActivity extends Activity {
                                     chatRoom = response.body();
                                     ChatVO chatVO = new ChatVO();
                                     chatVO.setChat_room_id(chatRoom.getChatRoom_id());
-                                    chatVO.setReader(chatRoom.getOwner_id());
+                                    chatVO.setReader(chatOpponent);
                                     chatVO.setSender(userId);
                                     chatVO.setContent(egg_edit_text.getText().toString().trim());
                                     Call<ChatVO> call2 = chatInterface.insertChat(chatVO);
@@ -279,7 +300,7 @@ public class ChatActivity extends Activity {
                 }
                 else
                 {
-                    /** chatRoom이 존재하는 로직 **/
+                    /** chatRoom이 존재하는 로직  **/
                     //채팅 내역 가져오기
                     selectChat(tmp);
                     onResume();
@@ -304,7 +325,7 @@ public class ChatActivity extends Activity {
                     @Override
                     public void run() {
 
-                        chatOpponentXML.setText(chatOpponent);
+                        chatOpponentXML.setText(chatOpponentName);
                     }
                 });
             }
@@ -333,7 +354,7 @@ public class ChatActivity extends Activity {
                     }
                     else
                     {
-                        chat.setSender(chatOpponent);
+                        chat.setSender(chatOpponentName);
                         items.add(new ChatItem(1,chat));
                     }
                 }
@@ -342,6 +363,8 @@ public class ChatActivity extends Activity {
                 ChatAdapter chatAdapter = new ChatAdapter(items);
                 recyclerView.setAdapter(chatAdapter);
 
+                //read cnt 초기화 시키기
+                initReadCnt(chatRoom);
             }
 
             @Override
@@ -361,5 +384,42 @@ public class ChatActivity extends Activity {
         String Time = simpleDateFormat.format(mDate);
 
         return Time;
+    }
+
+    /** 자신 read cnt 초기화 시키기 **/
+    public void initReadCnt(ChatRoomVO chatRoom)
+    {
+        Call<ChatRoomVO> call;
+        Log.d("init chatRoom test",chatRoom.toString());
+        if(user_ID.equals(chatRoom.getOwner_id()))
+        {
+            call = chatInterface.updateOwnerCntZero(chatRoom);
+            call.enqueue(new Callback<ChatRoomVO>() {
+                @Override
+                public void onResponse(Call<ChatRoomVO> call, Response<ChatRoomVO> response) {
+                    Log.d("owner cnt reset","success");
+                }
+
+                @Override
+                public void onFailure(Call<ChatRoomVO> call, Throwable t) {
+                    Log.d("owner cnt reset","failed");
+                }
+            });
+        }
+        else
+        {
+            call = chatInterface.updateClientCntZero(chatRoom);
+            call.enqueue(new Callback<ChatRoomVO>() {
+                @Override
+                public void onResponse(Call<ChatRoomVO> call, Response<ChatRoomVO> response) {
+                    Log.d("client cnt reset","success");
+                }
+
+                @Override
+                public void onFailure(Call<ChatRoomVO> call, Throwable t) {
+                    Log.d("client cnt reset","failed");
+                }
+            });
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.gnu_graduate_project_team.junggal_v2;
 
+import android.graphics.Bitmap;
+
 import com.google.gson.annotations.SerializedName;
 
 public class ChatRoomVO {
@@ -19,14 +21,28 @@ public class ChatRoomVO {
 	@SerializedName("owner_name")
 	private String owner_name;
 
+	@SerializedName("owner_cnt")
+	private Integer owner_cnt;
+
 	@SerializedName("client_id")
 	private String client_id;
 
 	@SerializedName("client_name")
 	private String client_name;
 
+	@SerializedName("client_cnt")
+	private Integer client_cnt;
+
+	@SerializedName("use_time")
+	private String use_time;
+
+
+
 	private String user_id;
 	private String last_time;
+
+	private Bitmap bitmap;
+	private Boolean bitmapFlag;
 
 	public ChatRoomVO() {
 	}
@@ -94,6 +110,46 @@ public class ChatRoomVO {
 		this.client_name = client_name;
 	}
 
+	public Bitmap getBitmap() {
+		return bitmap;
+	}
+
+	public void setBitmap(Bitmap bitmap) {
+		this.bitmap = bitmap;
+	}
+
+	public Integer getOwner_cnt() {
+		return owner_cnt;
+	}
+
+	public void setOwner_cnt(Integer owner_cnt) {
+		this.owner_cnt = owner_cnt;
+	}
+
+	public Integer getClient_cnt() {
+		return client_cnt;
+	}
+
+	public void setClient_cnt(Integer client_cnt) {
+		this.client_cnt = client_cnt;
+	}
+
+	public Boolean getBitmapFlag() {
+		return bitmapFlag;
+	}
+
+	public void setBitmapFlag(Boolean bitmapFlag) {
+		this.bitmapFlag = bitmapFlag;
+	}
+
+	public String getUse_time() {
+		return use_time;
+	}
+
+	public void setUse_time(String use_time) {
+		this.use_time = use_time;
+	}
+
 	@Override
 	public String toString() {
 		return "ChatRoomVO{" +
@@ -102,10 +158,15 @@ public class ChatRoomVO {
 				", share_post_name='" + share_post_name + '\'' +
 				", owner_id='" + owner_id + '\'' +
 				", owner_name='" + owner_name + '\'' +
+				", owner_cnt=" + owner_cnt +
 				", client_id='" + client_id + '\'' +
 				", client_name='" + client_name + '\'' +
+				", client_cnt=" + client_cnt +
+				", use_time='" + use_time + '\'' +
 				", user_id='" + user_id + '\'' +
 				", last_time='" + last_time + '\'' +
+				", bitmap=" + bitmap +
+				", bitmapFlag=" + bitmapFlag +
 				'}';
 	}
 }
