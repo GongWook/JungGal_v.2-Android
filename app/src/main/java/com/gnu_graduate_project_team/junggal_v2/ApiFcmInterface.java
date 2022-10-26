@@ -28,6 +28,10 @@ public interface ApiFcmInterface {
     @POST("fcm/requestAlarmDeny")
     Call<AlarmVO> requestAlarmDeny(@Body AlarmVO alarmVO);
 
+    /** request Alarm Deny **/
+    @POST("fcm/successShare")
+    Call<AlarmVO> successShare(@Body AlarmVO alarmVO);
+
     /** response Alarm 조회 **/
     @POST("fcm/responseAlarmSelect")
     Call<List<AlarmVO>> responseAlarmSelect(@Body UserVO user);

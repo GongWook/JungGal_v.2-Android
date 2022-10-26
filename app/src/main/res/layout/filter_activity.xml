@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="25dp">
+
+            <ImageView
+                android:id="@+id/filter_back_btn"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_weight="0.2"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/back_icon_custom" />
+
+            <TextView
+                android:id="@+id/textView27"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="필터링"
+                android:textColor="@color/black"
+                android:fontFamily="@font/namugodicl"
+                android:textSize="25dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_marginRight="55dp"/>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:layout_marginTop="35dp">
+
+
+        <CheckBox
+            android:id="@+id/koreanFood_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:drawableLeft="@drawable/korean_food_custom"
+            android:drawablePadding="60dip"
+            android:paddingLeft="70dip"
+            android:fontFamily="@font/namugodicl"
+            android:text="한식"
+            android:textSize="20dp"
+            android:buttonTint="#FFC000"
+            />
+
+
+
+        <CheckBox
+            android:id="@+id/chineseFood_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/chinese_food_custom"
+            android:drawablePadding="60dip"
+            android:paddingLeft="70dip"
+            android:text="중식"
+            android:textSize="20dp"
+            android:fontFamily="@font/namugodicl"
+            android:buttonTint="#FFC000"
+            android:layout_marginTop="10dp"/>
+
+
+        <CheckBox
+            android:id="@+id/japaneseFood_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/japanese_food_custom"
+            android:drawablePadding="60dip"
+            android:paddingLeft="70dip"
+            android:text="일식"
+            android:textSize="20dp"
+            android:fontFamily="@font/namugodicl"
+            android:buttonTint="#FFC000"
+            android:layout_marginTop="10dp" />
+
+        <CheckBox
+            android:id="@+id/westernFood_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/western_food_custom"
+            android:drawablePadding="60dip"
+            android:paddingLeft="70dip"
+            android:text="양식"
+            android:textSize="20dp"
+            android:fontFamily="@font/namugodicl"
+            android:buttonTint="#FFC000"
+            android:layout_marginTop="10dp" />
+
+        <CheckBox
+            android:id="@+id/meat_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/meat_food_custom"
+            android:drawablePadding="60dip"
+            android:paddingLeft="70dip"
+            android:text="육류"
+            android:textSize="20dp"
+            android:fontFamily="@font/namugodicl"
+            android:buttonTint="#FFC000"
+            android:layout_marginTop="10dp" />
+
+        <CheckBox
+            android:id="@+id/seaFood_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/seafood_custom"
+            android:drawablePadding="60dip"
+            android:paddingLeft="70dip"
+            android:text="해산물"
+            android:textSize="20dp"
+            android:fontFamily="@font/namugodicl"
+            android:buttonTint="#FFC000"
+            android:layout_marginTop="10dp" />
+        <CheckBox
+            android:id="@+id/healthyFood_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/healthy_food_custom"
+            android:drawablePadding="60dip"
+            android:paddingLeft="70dip"
+            android:text="건강식"
+            android:textSize="20dp"
+            android:fontFamily="@font/namugodicl"
+            android:buttonTint="#FFC000"
+            android:layout_marginTop="10dp" />
+
+        <CheckBox
+            android:id="@+id/snack_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/snack_food_custom"
+            android:drawablePadding="60dip"
+            android:paddingLeft="70dip"
+            android:text="간식"
+            android:textSize="20dp"
+            android:fontFamily="@font/namugodicl"
+            android:buttonTint="#FFC000"
+            android:layout_marginTop="10dp" />
+
+        <CheckBox
+            android:id="@+id/foodIngredients_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/food_ingredients_custom"
+            android:drawablePadding="60dip"
+            android:paddingLeft="70dip"
+            android:text="식자재"
+            android:textSize="20dp"
+            android:fontFamily="@font/namugodicl"
+            android:buttonTint="#FFC000"
+            android:layout_marginTop="10dp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/filter_select_btn"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_weight="0"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#FFC000"
+        android:gravity="center"
+        android:text="선택 완료"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/textView42"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="25dp"
+        android:text="* 클릭시 해당 마커 제거" />
+
+</LinearLayout>

@@ -44,6 +44,9 @@ public class AlarmVO {
     @SerializedName("shareTime")
     private String shareTime;
 
+    @SerializedName("reviewFlag")
+    private Boolean reviewFlag;
+
     long mNow;
     Date mDate;
     SimpleDateFormat mFormat = new SimpleDateFormat("MM-dd");
@@ -127,6 +130,13 @@ public class AlarmVO {
         this.shareTime = shareTime;
     }
 
+    public Boolean getReviewFlag() {
+        return reviewFlag;
+    }
+
+    public void setReviewFlag(Boolean reviewFlag) {
+        this.reviewFlag = reviewFlag;
+    }
     @Override
     public String toString() {
         return "AlarmVO{" +

@@ -1,6 +1,11 @@
 package com.gnu_graduate_project_team.junggal_v2;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +17,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -91,11 +97,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private TextView alarmText;
     private ImageView chatRoomBtn;
     private ImageView myPageBtn;
+    private ImageView searchBtn;
+    private ImageView filterBtn;
 
     /** 알람 총 갯수 **/
     private Integer alarmCnt;
     private Integer requestCnt;
     private Integer responseCnt;
+
+    /** Filtering Flag Array **/
+    private boolean[] booleans = new boolean[9];
+    private MarkerFlagVO markerFlagVO = new MarkerFlagVO(booleans);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +126,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         alarmText = (TextView) findViewById(R.id.alarmText);
         chatRoomBtn = (ImageView) findViewById(R.id.chatRoomBtn);
         myPageBtn = (ImageView) findViewById(R.id.myPageBtn);
+        searchBtn = (ImageView) findViewById(R.id.searchBtn);
+        filterBtn = (ImageView) findViewById(R.id.filterBtn);
 
         /** Thread 관련 **/
         mHandler = new Handler();
@@ -125,10 +139,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if(intent.getAction().equals("com.gnu.alarm"))
                 {
                     onResume();
-                }
-                else
-                {
-                    //chat
                 }
             }
         };
@@ -232,6 +242,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+        /** 음식 나눔 클릭 이벤트 **/
+        share_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SharePostWriteActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        /** 필터링 아이콘 클릭 이벤트 리스너 **/
+        filterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FilteringActivity.class);
+                intent.putExtra("checkFlagArr",markerFlagVO);
+                launcher.launch(intent);
+
+            }
+        });
+
     }
 
     @Override
@@ -288,6 +318,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 alarmText.setVisibility(View.INVISIBLE);
                 Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
                 intent.putExtra("requestCnt", requestCnt);
+                startActivity(intent);
+            }
+        });
+
+        /** 검색 버튼 클릭 이벤트 리스너 **/
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                intent.putExtra("Latitude",userLocation.latitude);
+                intent.putExtra("Longitude",userLocation.longitude);
                 startActivity(intent);
             }
         });
@@ -359,6 +400,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             unregisterReceiver(receiver);
         }
     }
+    
+    /** startforResult 대체 **/
+    ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if(result.getResultCode()==RESULT_OK)
+                    {
+                        Intent intent = result.getData();
+                        markerFlagVO = (MarkerFlagVO) intent.getSerializableExtra("checkFlagArr");
+                        booleans = markerFlagVO.getFilteringFlag();
+                        Log.d("flag test", markerFlagVO.toString());
+                        eraseMarker();
+                        onResume();
+                    }
+                }
+            });
 
     /** 사용자 위치  **/
     @Override
@@ -583,7 +641,71 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         for(Marker m : markerArrayList)
         {
-            m.setMap(naverMap);
+            if(m.getIcon().equals(OverlayImage.fromResource(R.drawable.korea_marker)))
+            {
+                if(booleans[0]!=true)
+                {
+                    m.setMap(naverMap);
+                }
+            }
+            else if(m.getIcon().equals(OverlayImage.fromResource(R.drawable.china_marker)))
+            {
+                if(booleans[1]!=true)
+                {
+                    m.setMap(naverMap);
+                }
+            }
+            else if(m.getIcon().equals(OverlayImage.fromResource(R.drawable.japan_marker)))
+            {
+                if(booleans[2]!=true)
+                {
+                    m.setMap(naverMap);
+                }
+            }
+            else if(m.getIcon().equals(OverlayImage.fromResource(R.drawable.western_marker)))
+            {
+                if(booleans[3]!=true)
+                {
+                    m.setMap(naverMap);
+                }
+            }
+            else if(m.getIcon().equals(OverlayImage.fromResource(R.drawable.meat_marker)))
+            {
+                if(booleans[4]!=true)
+                {
+                    m.setMap(naverMap);
+                }
+            }
+            else if(m.getIcon().equals(OverlayImage.fromResource(R.drawable.seafood_marker)))
+            {
+                if(booleans[5]!=true)
+                {
+                    m.setMap(naverMap);
+                }
+            }
+            else if(m.getIcon().equals(OverlayImage.fromResource(R.drawable.healthy_marker)))
+            {
+                if(booleans[6]!=true)
+                {
+                    m.setMap(naverMap);
+                }
+            }
+            else if(m.getIcon().equals(OverlayImage.fromResource(R.drawable.snack_marker)))
+            {
+                if(booleans[7]!=true)
+                {
+                    m.setMap(naverMap);
+                }
+            }
+            else
+            {
+                if(booleans[7]!=true)
+                {
+                    m.setMap(naverMap);
+                }
+            }
+
+            //m.setMap(naverMap);
         }
     }
 

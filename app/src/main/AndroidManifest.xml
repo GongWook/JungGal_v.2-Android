@@ -99,6 +99,10 @@
         <activity android:name=".MypageProfileUpdateActivity"/>
         <activity android:name=".MypageSellerChoooseActivity"/>
         <activity android:name=".MypageBusinessSellerRegistActivity"/>
+        <activity android:name=".ReviewRegistActivity"/>
+        <activity android:name=".ReviewActivity"/>
+        <activity android:name=".SearchActivity"/>
+        <activity android:name=".FilteringActivity"/>
 
 
     </application>

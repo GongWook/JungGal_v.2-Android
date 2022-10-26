@@ -48,18 +48,16 @@ public class SharePostActivity extends Activity {
     private TextView sharePostStory;
     private TextView sharePostsharePeople;
     private TextView sharePostsharedPeople;
-
+    private TextView sharePostPoint;
     private TextView sharePostUser;
     private TextView sharePostUserIntro;
     private ImageView SharePostWriterProfile;
-
     private ImageView backBtn;
     private TextView deletePostBtn;
-
     private ImageView sharePostPutInForBtn;
     private ImageView location_btn;
-
     private ImageView postWriterChat;
+    private ImageView sharePostReviewBtn;
 
     /** Timer **/
     private String postDay;
@@ -128,6 +126,8 @@ public class SharePostActivity extends Activity {
         sharePostPutInForBtn = (ImageView) findViewById(R.id.sharePostPutInForBtn);
         location_btn = (ImageView)findViewById(R.id.location_btn);
         postWriterChat = (ImageView)findViewById(R.id.postWriterChat);
+        sharePostPoint = (TextView) findViewById(R.id.sharePostPoint);
+        sharePostReviewBtn = (ImageView) findViewById(R.id.sharePostReviewBtn);
 
         /** Thread 사용 **/
         mHandler = new Handler();
@@ -236,6 +236,16 @@ public class SharePostActivity extends Activity {
                     startActivity(chatIntent);
                 }
 
+            }
+        });
+
+        sharePostReviewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent reviewIntent = new Intent(SharePostActivity.this, ReviewActivity.class);
+                reviewIntent.putExtra("sharePostWriter",sharePostVO.getUser_id());
+                reviewIntent.putExtra("sharePostWriterName",userVO.getName());
+                startActivity(reviewIntent);
             }
         });
 
@@ -439,9 +449,11 @@ public class SharePostActivity extends Activity {
                             @Override
                             public void onResponse(Call<UserVO> call, Response<UserVO> response) {
                                 userVO = response.body();
+                                Log.d("userVO test",userVO.toString());
 
                                 sharePostUser.setText(userVO.getName());
                                 sharePostUserIntro.setText(userVO.getIntroduce());
+                                sharePostPoint.setText(userVO.getShare_point()+"");
                                 if(userVO.getProfile_flag()==true)
                                 {
                                     byte[] tmp = Base64.decode(userVO.getImagedata(),Base64.DEFAULT);

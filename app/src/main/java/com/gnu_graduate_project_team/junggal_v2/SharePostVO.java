@@ -45,6 +45,10 @@ public class SharePostVO {
     //파일 번호를 받기위함
     private Integer imgNumber;
 
+    //검색 기능을 위함
+    private String keyword;
+    private Point point;
+
     public Integer getShare_post_id() {
         return share_post_id;
     }
@@ -147,6 +151,22 @@ public class SharePostVO {
         this.imgNumber = imgNumber;
     }
 
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    public Point getPoint() {
+        return point;
+    }
+
+    public void setPoint(Point point) {
+        this.point = point;
+    }
+
     @Override
     public String toString() {
         return "SharePostVO{" +
@@ -158,10 +178,13 @@ public class SharePostVO {
                 ", share_post_point='" + share_post_point + '\'' +
                 ", share_post_icon=" + share_post_icon +
                 ", share_people=" + share_people +
-                ", share_time=" + share_time +
                 ", share_story='" + share_story + '\'' +
-                ", post_time=" + post_time +
                 ", shared_people=" + shared_people +
+                ", share_time='" + share_time + '\'' +
+                ", post_time='" + post_time + '\'' +
+                ", imgNumber=" + imgNumber +
+                ", keyword='" + keyword + '\'' +
+                ", point=" + point +
                 '}';
     }
 }

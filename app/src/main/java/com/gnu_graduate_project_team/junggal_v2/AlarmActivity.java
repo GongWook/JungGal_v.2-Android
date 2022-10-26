@@ -28,6 +28,10 @@ public class AlarmActivity extends Activity {
     /** Thread 사용 **/
     Handler mHandler = new Handler();
 
+    /** requestCode **/
+    private static Integer review_check = 1;
+
+    /** XML 관련 변수 **/
     private ImageView backBtn;
     private TextView requestAlarmCnt;
     private RecyclerView recyclerView;
@@ -92,6 +96,18 @@ public class AlarmActivity extends Activity {
             }
         });
 
+        /** alarmAdapater onItemClickMove to Reveiw Listener **/
+        alarmAdapter.setOnItemClickMoveToReviewListner(new AlarmAdapter.OnItemClickMoveToReviewListner() {
+            @Override
+            public void onItemClick(int pos) {
+                Intent intent = new Intent(AlarmActivity.this, ReviewRegistActivity.class);
+                intent.putExtra("postWriterId",alarmList.get(pos).getPostWriter());
+                intent.putExtra("applyUser",alarmList.get(pos).getApplyUser());
+                intent.putExtra("alarmId",alarmList.get(pos).getAlarmId());
+                startActivityForResult(intent,review_check);
+            }
+        });
+
 
         recyclerView.setAdapter(alarmAdapter);
         recyclerView.setLayoutManager(manager);
@@ -151,6 +167,20 @@ public class AlarmActivity extends Activity {
             /** request Alarm Init 함수 호출 **/
             postWriter_initAlarm();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==review_check)
+        {
+            if(requestCode==RESULT_OK)
+            {
+                onResume();
+            }
+        }
+
     }
 
     public void postWriter_initAlarm()
@@ -273,7 +303,14 @@ public class AlarmActivity extends Activity {
                                 items = new ArrayList<>();
                                 for(AlarmVO alarm : alarmList)
                                 {
-                                    items.add(new AlarmItem(2,alarm));
+                                    if(alarm.getReviewFlag()==null)
+                                    {
+                                        items.add(new AlarmItem(2,alarm));
+                                    }
+                                    else
+                                    {
+                                        items.add(new AlarmItem(3,alarm));
+                                    }
                                 }
 
                                 //데이터 적용

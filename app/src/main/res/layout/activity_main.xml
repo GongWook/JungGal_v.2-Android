@@ -17,25 +17,18 @@
 
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/filterBtn"
             android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:src="@drawable/filter" />
 
         <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="230dp"
-            android:src="@drawable/search" />
-
-        <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/searchBtn"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="280dp"
-            android:src="@drawable/menu" />
+            android:src="@drawable/search" />
 
         <ImageView
             android:id="@+id/alarmBtn"
