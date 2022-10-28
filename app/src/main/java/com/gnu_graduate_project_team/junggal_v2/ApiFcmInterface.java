@@ -41,6 +41,4 @@ public interface ApiFcmInterface {
     Call<AlarmVO> delete_alarm(@Body AlarmVO alarmVO);
 
 
-
-    //test
 }

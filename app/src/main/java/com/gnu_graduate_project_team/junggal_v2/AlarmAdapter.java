@@ -367,7 +367,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             this.alarmVO = AlarmVO;
             message.setText(AlarmVO.getMessage());
             time.setText(AlarmVO.calcTime());
-            if(alarmVO.getReviewFlag()!=null && alarmVO.getReviewFlag()==true)
+            if(alarmVO.getAcceptFlag()==false || alarmVO.getReviewFlag()!=null && alarmVO.getReviewFlag()==true)
             {
                 share_sucess_btn.setVisibility(View.INVISIBLE);
             }

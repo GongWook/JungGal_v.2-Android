@@ -21,8 +21,6 @@ import retrofit2.Retrofit;
 
 public class ReviewActivity extends Activity {
 
-    /** review 기능 개발 완료 coomit 주석 **/
-
     /** XML 관련 변수 **/
     private ImageView review_list_back_btn;
     private RecyclerView reviewRecyclerView;
