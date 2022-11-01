@@ -212,7 +212,7 @@ public class EggChatActivity extends Activity {
                 "\n" +
                 "-주제에 따라 해당 지역의 장소를 추천해드려요\n" +
                 "       ex) 진주에 놀 만 한 관광지 알려줄래", "달걀이",  "오후 2:00", ViewType.LEFT_CHAT));
-        dataList.add(new Item("고마워", null, "오후 2:01", ViewType.RIGHT_CHAT));
+        //dataList.add(new Item("고마워", null, "오후 2:01", ViewType.RIGHT_CHAT));
 
     }
 }

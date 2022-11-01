@@ -1,7 +1,10 @@
 package com.gnu_graduate_project_team.junggal_v2;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -49,6 +52,10 @@ public class AlarmActivity extends Activity {
     Retrofit retrofit = ApiClient.getApiClient();
     ApiFcmInterface apifCMInterface = retrofit.create(ApiFcmInterface.class);
     ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+
+    /** 알람 BroadCastRecevier **/
+    private BroadcastReceiver receiver;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -145,11 +152,43 @@ public class AlarmActivity extends Activity {
         /** resopnse Alarm Init 함수 호출 **/
         responseAlarmInit();
 
+        /** 알람 BroadCastRecevier **/
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                String tmp = intent.getStringExtra("alarm");
+
+                if(tmp.equals("alarm"))
+                {
+                    if(!toogleFlag)
+                    {
+                        responseAlarmSelect();
+                        /** resopnse Alarm Init 함수 호출 **/
+                        responseAlarmInit();
+                        Log.d("boradcast test","test");
+                    }
+                    else
+                    {
+                        /** request UI Setting **/
+                        requestAlarmSelect();
+                        /** request Alarm Init 함수 호출 **/
+                        postWriter_initAlarm();
+                        Log.d("boradcast test","test");
+                    }
+                }
+            }
+        };
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        /** BroadCast 받기 **/
+        IntentFilter intentFilter = new IntentFilter("com.gnu.alarm");
+        this.registerReceiver(receiver, intentFilter);
 
         /** request UI Setting **/
         AlarmUIsetting(requestCnt);
@@ -167,6 +206,12 @@ public class AlarmActivity extends Activity {
             /** request Alarm Init 함수 호출 **/
             postWriter_initAlarm();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
     }
 
     @Override
