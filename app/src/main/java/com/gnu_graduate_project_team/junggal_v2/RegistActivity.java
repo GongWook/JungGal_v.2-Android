@@ -22,6 +22,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 
+import org.w3c.dom.Text;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -55,6 +57,7 @@ public class RegistActivity extends Activity {
     private String user_pw;
     private String check_pw;
     private String user_name;
+    private String real_name;
     private String user_introduce;
     private String user_phone_number;
     private Bitmap user_profile;
@@ -77,6 +80,7 @@ public class RegistActivity extends Activity {
 
         Intent intent=getIntent();
         user_phone_number = intent.getStringExtra("user_phone_number");
+        real_name = intent.getStringExtra("real_name");
 
 
         regist_email = (EditText) findViewById(R.id.regist_email);
@@ -144,10 +148,12 @@ public class RegistActivity extends Activity {
                     RequestBody name = RequestBody.create(MediaType.parse("text/plain"),user_name );
                     RequestBody phone_num = RequestBody.create(MediaType.parse("text/plain"),user_phone_number );
                     RequestBody introduce = RequestBody.create(MediaType.parse("text/plain"),user_introduce );
+                    RequestBody userRealName = RequestBody.create(MediaType.parse("text/plain"),real_name );
 
                     user_info.put("id", id);
                     user_info.put("pw", pw);
                     user_info.put("name", name);
+                    user_info.put("real_name", userRealName);
                     user_info.put("phone_number", phone_num);
                     user_info.put("introduce", introduce);
 
@@ -155,6 +161,7 @@ public class RegistActivity extends Activity {
                     userData.setId(user_email);
                     userData.setPw(user_pw);
                     userData.setName(user_name);
+                    userData.setReal_name(real_name);
                     userData.setPhone_number(user_phone_number);
                     userData.setIntroduce(user_introduce);
 
@@ -324,6 +331,8 @@ public class RegistActivity extends Activity {
         PreferenceManager.setBoolean(RegistActivity.this, "first_check_flag",true);
         PreferenceManager.setString(RegistActivity.this,"user_id", user_email);
         PreferenceManager.setString(RegistActivity.this,"user_pw",user_pw);
+        PreferenceManager.setString(RegistActivity.this,"user_name", user_name);
+        PreferenceManager.setString(RegistActivity.this,"user_real_name", real_name);
 
         MyApplication.user_data = uservo;
 

@@ -16,7 +16,7 @@
         android:layout_marginRight="5dp"
         android:text="00:00"
         android:textColor="#b9bcce"
-        android:textSize="10sp"
+        android:textSize="11sp"
         android:fontFamily="@font/namugodicl"
         app:layout_constraintBottom_toBottomOf="@+id/content"
         app:layout_constraintStart_toStartOf="@+id/content" />
@@ -26,6 +26,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="15dp"
+        android:background="@drawable/chat_right_background"
+        android:fontFamily="@font/namugodicl"
         android:paddingLeft="16dp"
         android:paddingTop="4dp"
         android:paddingRight="16dp"
@@ -33,8 +35,6 @@
         android:text="내가 보낸 메세지"
         android:textColor="@color/black"
         android:textSize="13sp"
-        android:fontFamily="@font/namugodicl"
-        android:background="@drawable/chat_right_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

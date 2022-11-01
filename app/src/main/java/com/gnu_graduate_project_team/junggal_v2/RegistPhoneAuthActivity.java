@@ -25,8 +25,12 @@ public class RegistPhoneAuthActivity extends Activity {
 
     private EditText phoneNum;
     private EditText authNum;
+    private EditText real_name;
     private Button auth_btn;
     private Button auht_pass_btn;
+
+    private String phone_num;
+    private String userRealNmae;
 
 
     @Override
@@ -40,6 +44,7 @@ public class RegistPhoneAuthActivity extends Activity {
 
         phoneNum = (EditText) findViewById(R.id.phone_num);
         authNum = (EditText) findViewById(R.id.auth_num);
+        real_name = (EditText) findViewById(R.id.real_name);
         auth_btn = (Button) findViewById(R.id.auth_get_button);
         auht_pass_btn = (Button) findViewById(R.id.auth_next_button);
 
@@ -48,25 +53,39 @@ public class RegistPhoneAuthActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                String phone_num = phoneNum.getText().toString().trim();
 
-                PhoneVO phone_info = new PhoneVO();
-                phone_info.setPhone_number(phone_num);
+                phone_num = phoneNum.getText().toString().trim();
+                userRealNmae = real_name.getText().toString().trim();
+                if(phone_num.equals(""))
+                {
+                    Toast.makeText(RegistPhoneAuthActivity.this, "휴대폰 번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                }
+                else if(userRealNmae.equals(""))
+                {
+                    Toast.makeText(RegistPhoneAuthActivity.this, "이름을 정자로 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    PhoneVO phone_info = new PhoneVO();
+                    phone_info.setPhone_number(phone_num);
 
-                Call<PhoneVO> call = apiInterface.phone_auth(phone_info);
-                call.enqueue(new Callback<PhoneVO>() {
-                    @Override
-                    public void onResponse(Call<PhoneVO> call, Response<PhoneVO> response) {
-                        Toast.makeText(RegistPhoneAuthActivity.this,"인증번호 전송 성공",Toast.LENGTH_SHORT).show();
-                        auth_btn.setEnabled(false);
-                        phoneNum.setEnabled(false);
-                    }
+                    Call<PhoneVO> call = apiInterface.phone_auth(phone_info);
+                    call.enqueue(new Callback<PhoneVO>() {
+                        @Override
+                        public void onResponse(Call<PhoneVO> call, Response<PhoneVO> response) {
+                            Toast.makeText(RegistPhoneAuthActivity.this,"인증번호 전송 성공",Toast.LENGTH_SHORT).show();
+                            auth_btn.setEnabled(false);
+                            phoneNum.setEnabled(false);
+                        }
 
-                    @Override
-                    public void onFailure(Call<PhoneVO> call, Throwable t) {
-                        Toast.makeText(RegistPhoneAuthActivity.this,"네트워크를 확인해 주세요.",Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<PhoneVO> call, Throwable t) {
+                            Toast.makeText(RegistPhoneAuthActivity.this,"네트워크를 확인해 주세요.",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+
             }
         });
 
@@ -92,8 +111,8 @@ public class RegistPhoneAuthActivity extends Activity {
                         {
                             Intent intent = new Intent(RegistPhoneAuthActivity.this, RegistActivity.class);
                             intent.putExtra("user_phone_number",phone_num);
+                            intent.putExtra("real_name",userRealNmae);
                             startActivity(intent);
-                            //Toast.makeText(RegistPhoneAuthActivity.this,"인증성공.",Toast.LENGTH_SHORT).show();
                         }
                         else
                         {

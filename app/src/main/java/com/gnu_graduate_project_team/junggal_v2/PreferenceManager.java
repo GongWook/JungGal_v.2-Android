@@ -47,6 +47,31 @@ public class PreferenceManager {
     }
 
     /**
+     * int 값 저장
+     * @param context
+     * @param key
+     * @param value
+     */
+    public static void setInt(Context context, String key, int value) {
+        SharedPreferences prefs = getPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(key, value);
+        editor.commit();
+    }
+
+    /**
+     * int 값 로드
+     * @param context
+     * @param key
+     * @return
+     */
+    public static int getInt(Context context, String key) {
+        SharedPreferences prefs = getPreferences(context);
+        int value = prefs.getInt(key, DEFAULT_VALUE_INT);
+        return value;
+    }
+
+    /**
      * boolean 값 저장
      * @param context
      * @param key

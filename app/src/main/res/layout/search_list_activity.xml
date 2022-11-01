@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/search_list_back_btn"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/back_icon_custom"
+            android:layout_gravity="start"/>
+
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <EditText
+            android:id="@+id/search_edit_box"
+            android:layout_width="340dp"
+            android:layout_height="35dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:background="@drawable/textbox_design"
+            android:gravity="start|center"
+            android:layout_gravity="center"
+            android:paddingLeft="20dp"
+            android:fontFamily="@font/namugodicl"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/search_select_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right|center"
+            android:layout_marginRight="45dp"
+            android:src="@drawable/search_custom" />
+
+
+    </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_result_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"/>
+
+</LinearLayout>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "926272328195",
+    "project_id": "junggal-v2",
+    "storage_bucket": "junggal-v2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926272328195:android:f09edc7611a992230f3436",
+        "android_client_info": {
+          "package_name": "com.gnu_graduate_project_team.junggal_v2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "926272328195-vl264kt3o9kvd98cfs1ttbnl4egjojhq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpuUOLdvDF19O3E5Y4VV5Y7D0OqktBgbk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "926272328195-vl264kt3o9kvd98cfs1ttbnl4egjojhq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

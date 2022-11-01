@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/BusinessSellerBackBtn"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_weight="0.2"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/back_icon_custom" />
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="사업자 판매 등록 페이지"
+            android:textColor="@color/black"
+            android:fontFamily="@font/namugodicl"
+            android:textSize="25dp"
+            android:gravity="center"
+            android:layout_marginRight="45dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="37dp"
+        android:layout_marginRight="37dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/store_image"
+                android:layout_width="50dp"
+                android:layout_height="81dp"
+                android:src="@drawable/camera_icon" />
+
+            <TextView
+                android:id="@+id/textView48"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:text="가게 상표 업로드"
+                android:fontFamily="@font/namugodicl"
+                android:textSize="19dp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_marginTop="15dp"
+            android:background="@color/gray_light" />
+
+        <EditText
+            android:id="@+id/store_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="가게 상호"
+            android:fontFamily="@font/namugodicl"
+            android:textSize="19dp"
+            android:background="@android:color/transparent"/>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_marginTop="15dp"
+            android:background="@color/gray_light"
+            />
+
+        <TextView
+            android:id="@+id/store_position"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="반찬 판매 위치                                     >"
+            android:fontFamily="@font/namugodicl"
+            android:textColor="@color/black"
+            android:textSize="19dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_marginTop="15dp"
+            android:background="@color/gray_light" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/textView41"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/namugodicl"
+                android:textColor="@color/black"
+                android:text="반찬 판매 시간"
+                android:textSize="19dp" />
+
+            <EditText
+                android:id="@+id/store_open_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="28dp"
+                android:hint="EX)  12:00  ~  22:00"
+                android:fontFamily="@font/namugodicl"
+                android:textSize="19dp"
+                android:background="@android:color/transparent"
+                />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_marginTop="15dp"
+            android:background="@color/gray_light" />
+
+        <EditText
+            android:id="@+id/business_seller_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="사업자 등록 번호  EX) 0000000000"
+            android:fontFamily="@font/namugodicl"
+            android:textSize="19dp"
+            android:background="@android:color/transparent"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_marginTop="15dp"
+            android:background="@color/gray_light" />
+
+        <EditText
+            android:id="@+id/business_open_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="개업 일자             EX) 20220101"
+            android:fontFamily="@font/namugodicl"
+            android:textSize="19dp"
+            android:background="@android:color/transparent"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_marginTop="15dp"
+            android:background="@color/gray_light" />
+
+        <TextView
+            android:id="@+id/textView40test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="은행 / 통장 번호"
+            android:fontFamily="@font/namugodicl"
+            android:textColor="@color/black"
+            android:textSize="19dp"/>
+
+        <RadioGroup
+            android:id="@+id/business_Bank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButton3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="BNK 경남은행 "
+                    />
+
+
+
+                <RadioButton
+                    android:id="@+id/radioButton2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="70dp"
+                    android:text="KB 국민은행" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="IBK 기업은행   " />
+
+                <RadioButton
+                    android:id="@+id/radioButton4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="70dp"
+                    android:text="kakaobank" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButtontest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="NH 농협은행    " />
+
+                <RadioButton
+                    android:id="@+id/radioButton4test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="68dp"
+                    android:text="우리은행" />
+            </LinearLayout>
+
+        </RadioGroup>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/editbox_design"
+            android:fontFamily="@font/namugodicl"
+            android:textSize="17dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:hint="통장번호"/>
+
+        <Button
+            android:id="@+id/business_seller_submit_btn"
+            android:layout_width="230dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:text="등록하기"
+            android:textSize="17dp"
+            android:textColor="@color/white"
+            android:backgroundTint="#FFC000"
+            android:fontFamily="@font/namugodicl"
+            android:layout_marginBottom="20dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

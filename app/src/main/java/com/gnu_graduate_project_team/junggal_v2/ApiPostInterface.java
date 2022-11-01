@@ -39,5 +39,14 @@ public interface ApiPostInterface {
     @POST("share_post/deletePost")
     Call<SharePostVO> deletPost(@Body SharePostVO postVO);
 
+    /** 게시물 좌표 Select **/
+    @POST("share_post/selectGeoPoint")
+    Call<Point> selectGeoPoint(@Body SharePostVO postVO);
+
+    /**게시물 검색 Select **/
+    @POST("share_post/searchPost")
+    Call<List<SharePostVO>> searchPost(@Body SharePostVO postVO);
+
+
 
 }

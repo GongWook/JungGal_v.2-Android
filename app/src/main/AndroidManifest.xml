@@ -38,6 +38,19 @@
 
         >
 
+        <!-- Firebase FCM Push -->
+        <service android:name=".MyFirebaseMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_junggalfcm" />
+
+
         <!-- 네이버 지도 -->
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
@@ -49,7 +62,14 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
+        <activity android:name=".AlarmActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -62,12 +82,28 @@
         <activity android:name=".RegistAgreeActivity"/>
         <activity android:name=".RegistPhoneAuthActivity"/>
         <activity android:name=".RegistActivity"/>
-        <activity android:name=".ChatActivity"/>
+        <activity android:name=".EggChatActivity"/>
         <activity android:name=".SharePostWriteActivity"/>
         <activity android:name=".SharePostlocationActivity"/>
         <activity android:name=".SharePostIconActivity"/>
         <activity android:name=".SharePostActivity"/>
         <activity android:name=".SharePostPutInForActivity"/>
+        <activity android:name=".WebSocketActivity"/>
+        <activity android:name=".StompWebSocketActivity"/>
+        <activity android:name=".PopUpActivity" android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".NaverDirection5Activity"/>
+        <activity android:name=".ChatActivity"/>
+        <activity android:name=".ChatRoomListActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".MyPageActivity"/>
+        <activity android:name=".MypageProfileUpdateActivity"/>
+        <activity android:name=".MypageSellerChoooseActivity"/>
+        <activity android:name=".MypageBusinessSellerRegistActivity"/>
+        <activity android:name=".ReviewRegistActivity"/>
+        <activity android:name=".ReviewActivity"/>
+        <activity android:name=".SearchActivity"/>
+        <activity android:name=".FilteringActivity"/>
+
 
     </application>
 

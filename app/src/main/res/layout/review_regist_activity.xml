@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/reviewBackBtn"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_weight="0.2"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/back_icon_custom" />
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="리뷰 작성"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:fontFamily="@font/namugodicl"
+            android:textSize="25dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/reviewSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="완료"
+            android:textColor="@color/black"
+            android:fontFamily="@font/namugodicl"
+            android:textSize="16dp"
+            android:gravity="right"
+            android:layout_marginRight="25dp"/>
+    </LinearLayout>
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:rating="0"
+        android:stepSize="1"
+        android:progressTint="#FFC000"
+        android:secondaryProgressTint="#FFC000"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        style="@style/Widget.AppCompat.RatingBar"
+        />
+
+    <EditText
+        android:id="@+id/review_content"
+        android:layout_width="320dp"
+        android:layout_height="520dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="리뷰를 남겨 주세요."
+        android:background="@drawable/textbox_design"
+        android:paddingTop="20dp"
+        android:gravity="start"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="20dp"
+        android:fontFamily="@font/namugodicl"/>
+
+
+</LinearLayout>

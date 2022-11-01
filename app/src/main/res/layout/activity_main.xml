@@ -4,42 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:orientation="horizontal"
         android:layout_marginTop="4dp"
         android:padding="13dp">
 
+
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/filterBtn"
             android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:src="@drawable/filter" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/searchBtn"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="205dp"
+            android:layout_marginLeft="280dp"
             android:src="@drawable/search" />
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/alarmBtn"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/menu" />
-
-        <ImageView
-            android:id="@+id/imageView7"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
+            android:layout_marginLeft="330dp"
             android:src="@drawable/bell" />
-    </LinearLayout>
+
+        <TextView
+            android:id="@+id/alarmText"
+            android:layout_width="30dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="340dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/namugodicl"
+            android:gravity="center"
+            android:background="@drawable/button_round"
+            android:backgroundTint="#FF3300"
+            android:textColor="@color/white"
+            android:text="1개"
+            android:visibility="invisible"/>
+    </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -101,14 +112,14 @@
             android:src="@drawable/home" />
 
         <ImageView
-            android:id="@+id/imageView11"
+            android:id="@+id/chatRoomBtn"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="27dp"
             android:src="@drawable/chat" />
 
         <ImageView
-            android:id="@+id/imageView12"
+            android:id="@+id/myPageBtn"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="27dp"

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/two_items_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingBottom="@dimen/space.medium"
+        android:paddingTop="@dimen/space.medium"
+        android:layout_marginTop="10dp">
+
+
+
+        <ImageView
+            android:id="@+id/AlarmBackBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/back_icon_custom" />
+
+        <belka.us.androidtoggleswitch.widgets.ToggleSwitch
+            android:id="@+id/alarmToogleSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="80dp"
+            custom:activeBgColor="@android:color/holo_blue_dark"
+            custom:activeTextColor="@android:color/white"
+            custom:inactiveBgColor="#DEDEDE"
+            custom:inactiveTextColor="@android:color/black"
+            custom:separatorColor="@color/gray_very_light"
+            custom:textToggleLeft="신청 내역"
+            custom:textToggleRight="신청 수락"
+            custom:toggleWidth="100dp" >
+
+        </belka.us.androidtoggleswitch.widgets.ToggleSwitch>
+
+        <TextView
+            android:id="@+id/requestAlarmCnt"
+            android:layout_width="30dp"
+            android:layout_height="15dp"
+            android:fontFamily="@font/namugodicl"
+            android:gravity="center"
+            android:background="@drawable/button_round"
+            android:backgroundTint="#FF3300"
+            android:textColor="@color/white"
+            android:text="1개"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="7dp"
+            android:visibility="invisible"
+ />
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/AlarmRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        custom:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        />
+
+
+</LinearLayout>

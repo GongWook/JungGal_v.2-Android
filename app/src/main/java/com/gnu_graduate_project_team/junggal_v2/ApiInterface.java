@@ -53,4 +53,30 @@ public interface ApiInterface {
     @POST("user/authPass")
     Call<PhoneVO> phone_auth_pass(@Body PhoneVO phone);
 
+    /** 알람 갯수 조회 **/
+    @POST("user/alarmCntSelect")
+    Call<UserVO> postWriterSelectAlarm(@Body UserVO user);
+
+    /** request 알람 갯수 초기화 **/
+    @POST("user/requestAlarmInit")
+    Call<UserVO> postWriterInitAlarm(@Body UserVO user);
+
+    /** request 알람 갯수 초기화 **/
+    @POST("user/responseAlarmInit")
+    Call<UserVO> responseAlarmInit(@Body UserVO user);
+
+    /** userData 조회 **/
+    @POST("user/getUserData")
+    Call<UserVO> getUserData(@Body UserVO user);
+
+    /** user 프로필 수정 profile 사진 존재시 **/
+    @Multipart
+    @POST("user/updateUserProfile")
+    Call<UserVO> updateUserProfile(@PartMap Map<String, RequestBody> params, @Part MultipartBody.Part file);
+
+    /** user 프로필 수정 profile 사진 미존재시 **/
+    @Multipart
+    @POST("user/updateUserProfile")
+    Call<UserVO> updateUser_nonProfile(@PartMap Map<String, RequestBody> params);
+
 }

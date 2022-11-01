@@ -67,6 +67,9 @@ public class LoginActivity extends Activity {
                             MyApplication.user_data = get_user_info;
                             PreferenceManager.setString(LoginActivity.this,"user_id", get_user_info.getId());
                             PreferenceManager.setString(LoginActivity.this,"user_pw", get_user_info.getPw());
+                            PreferenceManager.setString(LoginActivity.this,"user_name", get_user_info.getName());
+                            PreferenceManager.setString(LoginActivity.this,"user_real_name", get_user_info.getReal_name());
+                            MyGlobals.getInstance().setAlarmCnt(0);
                             Log.d("로그인 성공",get_user_info.getId().toString());
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
@@ -77,8 +80,6 @@ public class LoginActivity extends Activity {
                             Log.d("로그인 실패","fail");
 
                         }
-
-
 
                     }
 

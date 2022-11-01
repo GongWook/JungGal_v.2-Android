@@ -27,7 +27,6 @@ public class SplashActivity extends Activity {
         Log.d("test check flag : ", Auto_Login.toString());
 
 
-
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {

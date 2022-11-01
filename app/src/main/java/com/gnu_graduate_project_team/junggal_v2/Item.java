@@ -5,12 +5,18 @@ public class Item {
     private String name;
     private String time;
     private int viewType;
+    Object object;
 
     public Item(String content, String name , String time, int viewType) {
         this.content = content;
         this.name = name;
         this.time = time;
         this.viewType = viewType;
+    }
+
+    public Item(int viewType, Object object) {
+        this.viewType = viewType;
+        this.object = object;
     }
 
     public String getContent() {
@@ -43,5 +49,13 @@ public class Item {
 
     public void setViewType(int viewType) {
         this.viewType = viewType;
+    }
+
+    public Object getObject() {
+        return object;
+    }
+
+    public void setObject(Object object) {
+        this.object = object;
     }
 }
