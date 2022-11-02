@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_weight="0.2"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/back_icon_custom" />
+
+        <TextView
+            android:id="@+id/store_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/namugodicl"
+            android:textSize="25dp"
+            android:gravity="center"
+            android:text="&lt; 상호 &gt;"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            android:id="@+id/deletePostBtn"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:layout_weight="0.2"
+            android:fontFamily="@font/namugodicl"
+            android:gravity="right"
+            android:text="X"
+            android:textSize="25dp"
+            android:visibility="invisible"
+            android:clickable="false"/>
+
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/sellPostPutInForRcyView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginHorizontal="10dp"
+        android:padding="5dp"
+        custom:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+
+    <Button
+        android:id="@+id/orderBtn"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#FFC000"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="주문하기"
+        android:textSize="17dp"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="15dp"/>
+
+
+
+
+</LinearLayout>

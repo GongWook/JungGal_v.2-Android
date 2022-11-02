@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/textbox_design"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/sell_post_item_check"
+            android:checked="false"
+            android:layout_marginLeft="10dp"
+            ></CheckBox>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sell_post_item_name"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:fontFamily="@font/namugodicl"
+            android:textSize="25dp"
+            android:hint="반찬 이름"
+            android:layout_marginBottom="10dp"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/dish_photo"
+            android:layout_width="50dp"
+            android:layout_height="80dp"
+            android:src="@drawable/camera_icon"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/sell_post_story"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center|right"
+            android:gravity="left"
+            android:ems="10"
+            android:background="@drawable/textbox_design"
+            android:padding="20dp"
+            android:hint="반찬 판매 사연"
+            android:textSize="16dp"
+            android:inputType="textMultiLine"
+            android:scrollHorizontally="true"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sell_post_item_price"
+            android:layout_marginRight="5dp"
+            android:fontFamily="@font/namugodicl"
+            android:textSize="18dp"
+            android:hint="가격"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:fontFamily="@font/namugodicl"
+            android:textSize="18dp"
+            android:text="원">
+
+        </TextView>
+
+    </LinearLayout>
+
+
+</LinearLayout>
