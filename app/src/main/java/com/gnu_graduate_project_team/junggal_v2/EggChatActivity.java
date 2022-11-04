@@ -150,13 +150,21 @@ public class EggChatActivity extends Activity {
                                             }
                                             else {
                                                 Log.v("답 받아오기",egg_answer_content.getAnswer());
-                                                Item egg_answer = new Item(egg_answer_content.getAnswer(), "달걀이", timeStamp, ViewType.LEFT_CHAT);
-                                                dataList.add(egg_answer);
+                                                if(egg_answer_content.getAnswer()==null)
+                                                {
+                                                    Toast.makeText(EggChatActivity.this, "달걀이가 인식하지 못하였습니다.", Toast.LENGTH_SHORT).show();
+                                                }
+                                                else
+                                                {
+                                                    Item egg_answer = new Item(egg_answer_content.getAnswer(), "달걀이", timeStamp, ViewType.LEFT_CHAT);
+                                                    dataList.add(egg_answer);
 
-                                                /** 전송 시 recyclerview 새로고침 **/
-                                                MyAdapter adapter = new MyAdapter(dataList);
-                                                RecyclerView ryv = findViewById(R.id.eggong_chat_recycler_view);
-                                                ryv.setAdapter(adapter);
+                                                    /** 전송 시 recyclerview 새로고침 **/
+                                                    MyAdapter adapter = new MyAdapter(dataList);
+                                                    RecyclerView ryv = findViewById(R.id.eggong_chat_recycler_view);
+                                                    ryv.setAdapter(adapter);
+
+                                                }
 
                                             }
 
