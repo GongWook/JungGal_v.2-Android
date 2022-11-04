@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -105,6 +106,22 @@ public class SearchActivity extends Activity {
             public void onClick(View v) {
                 keyword = search_edit_box.getText().toString().trim();
                 selectResult(keyword);
+            }
+        });
+
+        /** 검색 엔터 이벤트 리스너 **/
+        search_edit_box.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                switch (keyCode)
+                {
+                    case KeyEvent.KEYCODE_ENTER:
+                        keyword = search_edit_box.getText().toString().trim();
+                        selectResult(keyword);
+
+                        break;
+                }
+                return true;
             }
         });
 

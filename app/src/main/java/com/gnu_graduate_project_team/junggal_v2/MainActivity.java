@@ -131,18 +131,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         /** Thread 관련 **/
         mHandler = new Handler();
-        
-        /** 알람 BroadCastRecevier **/
-        receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if(intent.getAction().equals("com.gnu.alarm"))
-                {
-                    onResume();
-                }
-            }
-        };
-
 
         /** FCM 토큰값 발행 성공 리스너 **/
         FirebaseMessaging.getInstance().getToken().addOnSuccessListener(new OnSuccessListener<String>() {
@@ -226,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View view) {
                 MyGlobals.getInstance().setAlarmCnt(0);
+                alarmCnt=0;
                 alarmText.setVisibility(View.INVISIBLE);
                 Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
                 intent.putExtra("requestCnt", requestCnt);
@@ -262,21 +251,53 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+        /** 알람 BroadCastRecevier **/
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                String tmp = intent.getStringExtra("alarm");
+
+                if(tmp.equals("alarm"))
+                {
+                    alarmCnt=0;
+                    /** 알람 개수 조회 **/
+                    alarmUiSetting();
+                }
+            }
+        };
+
+        /** 알람 개수 조회 **/
+        alarmUiSetting();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
+        /** 기존 마커 제거 **/
+        eraseMarker();
+
         /** Alarm Cnt 초기화 **/
         alarmCnt=0;
 
-        /** Thread 사용 Handler **/
-        mHandler = new Handler();
+        /** 마이페이지 서비스 호출 이벤트 리스너 **/
+        myPageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MyPageActivity.class);
+                intent.putExtra("userData", user);
+                startActivity(intent);
+            }
+        });
 
         /** BroadCast 받기 **/
         IntentFilter intentFilter = new IntentFilter("com.gnu.alarm");
         this.registerReceiver(receiver, intentFilter);
+
+        /** Thread 사용 Handler **/
+        mHandler = new Handler();
 
         /** 사용자 위치  **/
         locationSource =
@@ -333,62 +354,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        /** 알람 갯수 조회 **/
-        user = new UserVO();
-        user.setId(userId);
-        Call<UserVO> call = apiInterface.postWriterSelectAlarm(user);
-
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        call.enqueue(new Callback<UserVO>() {
-                            @Override
-                            public void onResponse(Call<UserVO> call, Response<UserVO> response) {
-                                user = response.body();
-
-                                requestCnt = user.getRequestAlarmCnt();
-                                responseCnt = user.getResponseAlarmCnt();
-                                alarmCnt += requestCnt + responseCnt;
-
-                                if(alarmCnt!=0)
-                                {
-                                    String alarmString = alarmCnt+"개";
-                                    alarmText.setVisibility(View.VISIBLE);
-                                    alarmText.setText(alarmString);
-                                }
-                                else
-                                {
-                                    alarmText.setVisibility(View.INVISIBLE);
-                                }
-                                Log.d("noti count test ", "success");
-
-                                /** 마이페이지 서비스 호출 이벤트 리스너 **/
-                                myPageBtn.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Intent intent = new Intent(MainActivity.this, MyPageActivity.class);
-                                        intent.putExtra("userData", user);
-                                        startActivity(intent);
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onFailure(Call<UserVO> call, Throwable t) {
-                                Log.d("noti count test ", t.toString());
-                            }
-                        });
-                    }
-                });
-            }
-        });
-
-        t.start();
-
     }
 
     @Override
@@ -397,6 +362,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         if(receiver !=null)
         {
+            Log.d("onpause ","test");
             unregisterReceiver(receiver);
         }
     }
@@ -413,6 +379,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         booleans = markerFlagVO.getFilteringFlag();
                         Log.d("flag test", markerFlagVO.toString());
                         eraseMarker();
+                        onResume();
+                    }
+                    else
+                    {
+                        Log.d("delete resume test ","test");
                         onResume();
                     }
                 }
@@ -614,7 +585,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     intent.putExtra("sharePostID", Integer.parseInt(postData[1]));
                     intent.putExtra("Latitude",postData[2]);
                     intent.putExtra("Longitude",postData[3]);
-                    startActivity(intent);
+                    //startActivity(intent);
+                    launcher.launch(intent);
                     return true;
                 }
             });
@@ -719,10 +691,71 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         markerArrayList = new ArrayList<>();
     }
 
-    /** 유저 정보 받아오기 **/
-    public void getUserData()
+    /** 알람 갯수 조회 **/
+    public void alarmUiSetting()
     {
 
+        try {
+            Thread.sleep(2000);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        user = new UserVO();
+        user.setId(userId);
+        Call<UserVO> call = apiInterface.postWriterSelectAlarm(user);
+
+        call.enqueue(new Callback<UserVO>() {
+            @Override
+            public void onResponse(Call<UserVO> call, Response<UserVO> response) {
+                user = response.body();
+
+                requestCnt = user.getRequestAlarmCnt();
+                responseCnt = user.getResponseAlarmCnt();
+                Log.d("requestCnt",requestCnt.toString());
+                Log.d("responseCnt",responseCnt.toString());
+                alarmCnt += requestCnt + responseCnt;
+
+                Log.d("alarmCnt test ", alarmCnt.toString());
+
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                if(requestCnt + responseCnt!=0)
+                                {
+                                    String alarmString = requestCnt + responseCnt+"개";
+                                    alarmText.setVisibility(View.VISIBLE);
+                                    alarmText.setText(alarmString);
+                                    Log.d("알람 갯수",alarmString);
+                                }
+                                else
+                                {
+                                    alarmText.setVisibility(View.INVISIBLE);
+                                }
+
+
+                            }
+                        });
+                    }
+                });
+
+                t.start();
+
+            }
+
+            @Override
+            public void onFailure(Call<UserVO> call, Throwable t) {
+                Log.d("noti count test ", t.toString());
+            }
+        });
+
+
     }
+
 
 }

@@ -14,6 +14,7 @@ public class BusinessManVO {
     private String account;
     private Double latitude;
     private Double longitude;
+    private String store_image;
 
     public BusinessManVO() {
 
@@ -114,6 +115,8 @@ public class BusinessManVO {
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
+
+
 
     @Override
     public String toString() {

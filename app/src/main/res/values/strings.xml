@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">정갈v.2</string>
+
+    <string-array name="radio_buttons">
+        <item>경남은행</item>
+        <item>국민은행</item>
+        <item>기업은행</item>
+        <item>카카오뱅크</item>
+        <item>농협</item>
+        <item>우리은행</item>
+    </string-array>
 </resources>

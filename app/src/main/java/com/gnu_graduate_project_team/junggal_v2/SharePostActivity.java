@@ -158,6 +158,7 @@ public class SharePostActivity extends Activity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setResult(1,intent);
                 finish();
             }
         });
@@ -341,7 +342,9 @@ public class SharePostActivity extends Activity {
                                                 {
                                                     if(user_ID.equals(sharePostVO.getUser_id()))
                                                     {
+                                                        Intent intent = getIntent();
                                                         deletePost();
+                                                        setResult(1,intent);
                                                     }
                                                     else
                                                     {
@@ -453,7 +456,8 @@ public class SharePostActivity extends Activity {
 
                                 sharePostUser.setText(userVO.getName());
                                 sharePostUserIntro.setText(userVO.getIntroduce());
-                                sharePostPoint.setText(userVO.getShare_point()+"");
+                                Double tmpRate = userVO.getShare_point();
+                                sharePostPoint.setText(String.format("%.2f",tmpRate));
                                 if(userVO.getProfile_flag()==true)
                                 {
                                     byte[] tmp = Base64.decode(userVO.getImagedata(),Base64.DEFAULT);

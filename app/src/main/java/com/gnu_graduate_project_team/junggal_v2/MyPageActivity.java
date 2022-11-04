@@ -130,7 +130,8 @@ public class MyPageActivity extends Activity {
                     public void run() {
 
                         myPageName.setText(userData.getName());
-                        myPagePoint.setText(userData.getShare_point().toString());
+                        Double tmpRate = userData.getShare_point();
+                        myPagePoint.setText(String.format("%.2f",tmpRate));
                         userGetProfile();
 
                         //sellerBadge여부

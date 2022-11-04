@@ -104,6 +104,22 @@
             android:layout_marginTop="15dp"
             android:background="@color/gray_light" />
 
+        <TextView
+            android:id="@+id/store_marker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="판매 마커 설정                                     >"
+            android:fontFamily="@font/namugodicl"
+            android:textColor="@color/black"
+            android:textSize="19dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_marginTop="15dp"
+            android:background="@color/gray_light" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -180,77 +196,20 @@
             android:textColor="@color/black"
             android:textSize="19dp"/>
 
-        <RadioGroup
-            android:id="@+id/business_Bank"
+        <com.whygraphics.multilineradiogroup.MultiLineRadioGroup xmlns:multi_line_radio_group="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/multi_line_radio_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/radioButton3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="BNK 경남은행 "
-                    />
+            android:layout_marginTop="15dp"
+            multi_line_radio_group:default_button="button_2"
+            multi_line_radio_group:max_in_row="3"
+            multi_line_radio_group:radio_buttons="@array/radio_buttons" />
 
 
 
-                <RadioButton
-                    android:id="@+id/radioButton2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="70dp"
-                    android:text="KB 국민은행" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/radioButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="IBK 기업은행   " />
-
-                <RadioButton
-                    android:id="@+id/radioButton4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="70dp"
-                    android:text="kakaobank" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/radioButtontest"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="NH 농협은행    " />
-
-                <RadioButton
-                    android:id="@+id/radioButton4test"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="68dp"
-                    android:text="우리은행" />
-            </LinearLayout>
-
-        </RadioGroup>
 
         <EditText
+            android:id="@+id/accountNumber"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:background="@drawable/editbox_design"
